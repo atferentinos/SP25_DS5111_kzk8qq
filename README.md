@@ -1,2 +1,2 @@
-# SP25_DS5111_kzk8qq
-DS5111 Repo
+# SP25_DS5111_materials
+Reading and lab resources for DS5111 Spring 2025
