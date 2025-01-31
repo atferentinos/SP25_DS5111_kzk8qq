@@ -41,3 +41,15 @@ git clone [paste your SSH clone URL from the green button on GitHub]
 
 chmod +x init.sh
 ./init.sh
+
+
+## Project-Specific Setup
+
+### 1. Install Chrome Headless Browser
+```bash
+# Execute chrome installation script
+chmod +x scripts/install_chrome.sh
+./scripts/install_chrome.sh
+
+# Test chrome installation
+google-chrome --headless --dump-dom https://example.com
