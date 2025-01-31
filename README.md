@@ -71,9 +71,30 @@ make ygainers.csv
 ```
 
 ### Project Structure
-Use tree command to see structure:
+Tree command to check structure
 ```bash
-tree . -I env
+tree ._I env
+```
+
+```bash
+├── LICENSE
+├── Makefile
+├── README.md
+├── init.sh
+├── requirements.txt
+├── sample_data
+│   └── ygainers_sample.csv
+├── scripts
+│   ├── 00_00_setup_script_for_git_github.md
+│   ├── 00_01_setup_git_global_creds.sh
+│   └── install_chrome.sh
+├── text
+│   ├── README.md
+│   └── aws_login.md
+├── ygainers.csv
+└── ygainers.html
+
+4 directories, 13 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
