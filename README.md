@@ -4,52 +4,74 @@ Reading and lab resources for DS5111 Spring 2025
 
 ## VM Setup Instructions
 
-1. run the following to update sys packages
-
-   
+1. run the following to update sys packages:
+```bash
 sudo apt update
+```
 
 ## Setup Git credentials and SSH key(from first week)
 
-2.generate SSH key and configure
-
-### gen SSH key
-
+2.generate SSH key and configure:
+```bash
+# Generate SSH key
 ssh-keygen -t ed25519 -C "your-email@example.com"
 
-### Start ssh-agent and add key
+# Start ssh-agent and add key
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
 
-eval "$(ssh-agent -s)" ssh-add ~/.ssh/id_ed25519
-
-### Copy your public key to add to GitHub
-
+# Copy your public key to add to GitHub
 cat ~/.ssh/id_ed25519.pub
+```
 
-### Configure Git credentials
+3. Configure Git credentials:
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+```
 
-3. global creds
-
-git config --global user.name "Your Name" git config --global user.email "your-email@example.com"
-
-### Clone repo
-4. clone repo
-
+4. Clone repo:
+```bash
 git clone [paste your SSH clone URL from the green button on GitHub]
+```
 
-### Run init script
-5. run init
-
+5. Run init script:
+```bash
 chmod +x init.sh
 ./init.sh
-
+```
 
 ## Project-Specific Setup
 
 ### 1. Install Chrome Headless Browser
+Run the chrome installation script:
 ```bash
-# Execute chrome installation script
 chmod +x scripts/install_chrome.sh
 ./scripts/install_chrome.sh
 
 # Test chrome installation
 google-chrome --headless --dump-dom https://example.com
+```
+
+### 2. Python Environment Setup
+Our requirements.txt contains:
+- pandas
+- lxml
+
+### 3. Virtual Environment Setup
+Create and update virtual environment:
+```bash
+make update
+```
+
+### 4. Test Setup
+Test the headless browser:
+```bash
+make ygainers.csv
+```
+
+### Project Structure
+Use tree command to see structure:
+```bash
+tree . -I env
+```
