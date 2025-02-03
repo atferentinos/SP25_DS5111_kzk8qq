@@ -75,29 +75,40 @@ make ygainers.csv #then test
 deactivate  #then you can/need to deactivate the env when done
 ```
 
+### Organization prep for extra credit
+Need to make sample_data dir and move non root scripts
+```bash
+mkdir sample_data
+
+#moving files into there
+mv ygainers.csv sample_data/
+mv ygainers.html sample_data/
+```
+
 ### Project Structure
 Tree command to check structure
 ```bash
-tree ._I env
+tree . -I env
 ```
 
 ```bash
+#my example output
 ├── LICENSE
 ├── Makefile
 ├── README.md
 ├── init.sh
 ├── requirements.txt
 ├── sample_data
+│   ├── ygainers.csv
+│   ├── ygainers.html
 │   └── ygainers_sample.csv
 ├── scripts
 │   ├── 00_00_setup_script_for_git_github.md
 │   ├── 00_01_setup_git_global_creds.sh
 │   └── install_chrome.sh
-├── text
-│   ├── README.md
-│   └── aws_login.md
-├── ygainers.csv
-└── ygainers.html
+└── text
+    ├── README.md
+    └── aws_login.md
 
 4 directories, 13 files
 ```
@@ -117,3 +128,5 @@ tree ._I env
 
 - sample_data/: Example datasets
  - ygainers_sample.csv: Sample of scraped Yahoo Finance gainers data that was talked about in class, put in sample_data folder and labeled
+ - ygainers.html: was output from running Makefile so I also moved there
+ - ygainers.csv: was output from running Makefile so I also moved there
