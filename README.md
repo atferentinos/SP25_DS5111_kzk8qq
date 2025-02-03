@@ -67,7 +67,9 @@ make update
 ### 4. Test Setup
 Test the headless browser:
 ```bash
-make ygainers.csv
+source env/bin/activate  #I needed to activate env first
+make ygainers.csv #then test
+deactivate  #then you can/need to deactivate the env when done
 ```
 
 ### Project Structure
