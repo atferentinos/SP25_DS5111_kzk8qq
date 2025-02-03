@@ -20,12 +20,14 @@ ssh-keygen -t ed25519 -C "your-email@example.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 
+# to note here, you could just copy the ssh output to your github ssh keys section in settings(what I did)
 # Copy your public key to add to GitHub
 cat ~/.ssh/id_ed25519.pub
 ```
 
 3. Configure Git credentials:
 ```bash
+# make sure you use your actual github info, you can check in your Github settings
 git config --global user.name "Your Name"
 git config --global user.email "your-email@example.com"
 ```
@@ -37,6 +39,7 @@ git clone [paste your SSH clone URL from the green button on GitHub]
 
 5. Run init script and add executable, very important!:
 ```bash
+#this makes executable
 chmod +x init.sh
 ./init.sh
 ```
