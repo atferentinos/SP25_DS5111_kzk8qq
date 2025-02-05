@@ -1,6 +1,25 @@
 # SP25_DS5111_materials
 
-Reading and lab resources for DS5111 Spring 2025
+# Setting up chrome headless browser and virtual environment
+Learning goals:
+* Create a bootstrap script to do the base floor setup for your VM
+* Install the google-chrome-stable app, so we can use the headless browser for data collection
+* Take our first steps to set up a dev environment: creating a virtual environment and makefile
+* Create a README documentation so a new Data Scientist could catch up quickly
+
+# 1 Documenting and automatng a way to recreate VM for project
+## 1.1 Automating the sequence to recreate VM. 
+We want to be immune to a cloud instance crashing.  The `cloud` may seem permanent and solid since
+it usually associated with 'backing up' important data, photos, documents etc.  However few people
+realize how ephemeral cloud instances are.  What makes them fault tolerant is a good bootstrap sequence
+to recreate/clone a VM quickly.  Review and or execute the manual steps, then create a general init file.
+* These are the manual steps:
+    - `sudo apt update`                      # To bring VM snapshot up to date with package versions
+    - `sudo apt install make -y`             # so we can use makefiles
+    - `sudo apt install python3.12-venv -y`  # so we can create python virtual environments
+    - `sudo apt install tree`                # a usefull tool for listing files in tree form
+* Create a script to execute the manual steps above.  Name it `init.sh` and check it in to your repository.
+
 
 ## VM Setup Instructions(Section 1)
 
