@@ -47,6 +47,34 @@ chmod +x init.sh
 ## Project-Specific Setup(Section 2)
 
 ### 1. Install Chrome Headless Browser
+need to make chrome install script, only way to get the html connection to work without error I found!
+```bash
+cd scripts
+nano install_chrome.sh
+```
+```bash
+#when in the install_chrome.sh script
+#!/bin/bash
+ 
+# chrome pkg
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ 
+# install chrome
+sudo apt install ./google-chrome-stable_current_amd64.deb -y
+ 
+# cleaning
+rm google-chrome-stable_current_amd64.deb
+ 
+# test if worked
+if google-chrome --version; then
+    echo "chrome success!"
+else
+    echo "chrome failed!"
+    exit 1
+fi
+```
+### 1. Install Chrome Headless Browser
+
 Run the chrome installation script:
 ```bash
 chmod +x scripts/install_chrome.sh
