@@ -20,9 +20,9 @@ jobs:
           python3 -m venv env
           source env/bin/activate
           pip install --upgrade pip
-          pip install pytest
+          pip install pytest pylint
           pip install -r requirements.txt
-      - name: Test with pytest
+      - name: Run tests and linting
         run: |
           source env/bin/activate
-          pytest -vvx tests
+          make test
