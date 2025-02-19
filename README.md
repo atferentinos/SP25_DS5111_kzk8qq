@@ -178,5 +178,3 @@ tree . -I env
  - ygainers.html: was output from running Makefile so I also moved there
  - ygainers.csv: was output from running Makefile so I also moved there
 
-
-[Feature Validation](https://github.com/aferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)
