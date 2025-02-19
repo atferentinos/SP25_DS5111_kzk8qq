@@ -177,4 +177,6 @@ tree . -I env
  - ygainers_sample.csv: Sample of scraped Yahoo Finance gainers data that was talked about in class, put in sample_data folder and labeled
  - ygainers.html: was output from running Makefile so I also moved there
  - ygainers.csv: was output from running Makefile so I also moved there
-![Feature Validation](https://github.com/aferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)
+
+
+[Feature Validation](https://github.com/aferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)
