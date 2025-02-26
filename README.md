@@ -338,19 +338,23 @@ tree . -I env
 ## Directory Organization, Sample Data, and Extra Credit
 
 ### Key Directories
-- Root directory: Contains essential setup files
- - init.sh: VM initialization script
- - Makefile: Manages Python environment and data collection(from professor github)
- - requirements.txt: Python dependencies(from professor github)
-
-- scripts/: Utility scripts
- - install_chrome.sh: Chrome headless browser installer(from instructions and online sources)
- - 00_00_setup_script_for_git_github.md: Git setup guide(from first week)
- - 00_01_setup_git_global_creds.sh: Git credentials setup script(from first week)
-
-- sample_data/: Example datasets
- - ygainers_sample.csv: Sample of scraped Yahoo Finance gainers data that was talked about in class, put in sample_data folder and labeled
- - ygainers.html: was output from running Makefile so I also moved there
- - ygainers.csv: was output from running Makefile so I also moved there
+* Root directory: Contains essential setup files
+* `bin/`: Contains Python scripts for data processing
+  * `normalize_csv.py`: Script for normalizing CSV data
+* `init.sh`: VM initialization script
+* `Makefile`: Manages Python environment and data collection
+* `requirements.txt`: Python dependencies
+* `scripts/`: Utility scripts
+  * `install_chrome.sh`: Chrome headless browser installer
+  * `00_00_setup_script_for_git_github.md`: Git setup guide
+  * `00_01_setup_git_global_creds.sh`: Git credentials setup script
+* `sample_data/`: Example datasets
+  * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
+  * `ygainers.html`: HTML output from running Makefile
+  * `ygainers.csv`: CSV output from running Makefile
+  * `ygainers_norm.csv`: Normalized version of the CSV data
+* `tests/`: Contains test files for the project
+  * `test_Module_5.py`: Tests for Module 5 functionality
+  * `test_environment.py`: Tests for environment setup
 
 [![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
