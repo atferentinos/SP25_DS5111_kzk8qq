@@ -1,6 +1,3 @@
-default:
-	@cat makefile
-
 env:
 	python3 -m venv env; . env/bin/activate; pip install --upgrade pip
 
@@ -24,3 +21,13 @@ lint:
 
 test: lint
 	pytest -vvx tests
+
+gainers:
+	@if [ -z "$(SRC)" ]; then \
+		echo "Error: SRC parameter is required"; \
+		echo "Usage: make gainers SRC=yahoo"; \
+		echo "   or: make gainers SRC=wsj"; \
+		exit 1; \
+	fi
+	@echo "Processing gainers data from $(SRC)..."
+	@python get_gainer.py $(SRC)
