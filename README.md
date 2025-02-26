@@ -6,6 +6,12 @@ Learning goals:
 * Install the google-chrome-stable app, so we can use the headless browser for data collection
 * Take our first steps to set up a dev environment: creating a virtual environment and makefile
 * Create a README documentation so a new Data Scientist could catch up quickly
+* *write a CSV normalizer to standardize data from different sources
+* add a linter to automate base
+* add tests and automate with the makefile
+* pylint to refactor our code
+* get workflow operational
+* add badge to demonstrate the test are passing
 
 # 1 Documenting and automatng a way to recreate VM for project
 ## 1.1 Automating the sequence to recreate VM. 
@@ -123,7 +129,7 @@ deactivate  #then you can/need to deactivate the env when done
 ```
 
 ### Organization prep for extra credit
-Need to make sample_data dir and move non root scripts
+This repository includes a CSV normalizer tool that standardizes CSV files from different sources to a consistent format.
 ```bash
 mkdir sample_data
 
@@ -131,6 +137,107 @@ mkdir sample_data
 mv ygainers.csv sample_data/
 mv ygainers.html sample_data/
 ```
+### Create new branch for this lab section
+create a new branch
+```bash
+git status
+git checkout -b LAB-03_csv_normalizer
+git push
+git push --set-upstream origin LAB-03_csv_normalizer
+git push
+```
+
+### CSV Normalizer Tool
+Need to make sample_data dir and move non root scripts
+```bash
+#create directory bin
+mkdir bin
+
+#new file
+nano bin/normalize_csv.py
+```
+### CSV Normalizer Tool
+Code for the tool
+```bash
+#add csv normalizer code you will write
+```
+
+### Installing pylint
+install pylint
+```bash
+nano requirements.txt
+#add pylint 
+```
+
+### Test pylint
+test pylint
+```bash
+pylint bin/normalize_csv.py
+
+pylint --generate-rcfile >> pylintrc
+```
+
+### Add pylint to Makefile
+add pylint to makefile
+```bash
+lint: 
+        pylint bin/normalize_csv.py
+```
+
+### Setting up pytest
+add pytest to requirements.txt file
+```bash
+nano requirements.txt
+#add pytest
+make update 
+```
+### Setting up pytest
+create tests directory
+```bash
+mkdir tests
+```
+
+### create test py file
+create test py file
+```bash
+nano test_Module_5.py
+#insert test code to there
+```
+
+### test the pytest
+test the pytest file
+```bash
+#run
+pytest -vv tests
+```
+
+### add pytest to Makefile
+add pytest to makefile
+```bash
+test: lint
+        pytest -vvx tests
+```
+### github directory and file addition
+add github workflows and file
+```bash
+mkdir .github/workflows
+touch .github/workflows/validations.yml
+```
+### add yml content
+insert info for feature validation
+```bash
+mkdir .github/workflows
+touch .github/workflows/validations.yml
+```
+
+### push changes
+push changes of normalizer code
+```bash
+git add  all .
+git commit -m "note"
+git push
+```
+****
 
 ### Project Structure
 Tree command to check structure
@@ -139,25 +246,36 @@ tree . -I env
 ```
 
 ```bash
-#my example output
+.
 ├── LICENSE
 ├── Makefile
 ├── README.md
+├── bin
+│   ├── __pycache__
+│   │   └── normalize_csv.cpython-312.pyc
+│   └── normalize_csv.py
 ├── init.sh
+├── pylintrc
 ├── requirements.txt
 ├── sample_data
 │   ├── ygainers.csv
 │   ├── ygainers.html
+│   ├── ygainers_norm.csv
 │   └── ygainers_sample.csv
 ├── scripts
 │   ├── 00_00_setup_script_for_git_github.md
 │   ├── 00_01_setup_git_global_creds.sh
 │   └── install_chrome.sh
+├── tests
+│   ├── __pycache__
+│   │   ├── test_Module_5.cpython-312-pytest-7.4.4.pyc
+│   │   ├── test_Module_5.cpython-312-pytest-8.3.4.pyc
+│   │   └── test_environment.cpython-312-pytest-7.4.4.pyc
+│   ├── test_Module_5.py
+│   └── test_environment.py
 └── text
     ├── README.md
     └── aws_login.md
-
-4 directories, 13 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
