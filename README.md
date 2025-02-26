@@ -12,6 +12,7 @@ Learning goals:
 * pylint to refactor our code
 * get workflow operational
 * add badge to demonstrate the test are passing
+* applying Design Patterns to code
 
 # 1 Documenting and automatng a way to recreate VM for project
 ## 1.1 Automating the sequence to recreate VM. 
@@ -287,6 +288,87 @@ jobs:
           make test
 ```
 
+### Create directory Structure and add files
+directory structure 
+```bash
+cd bin
+mkdir gainers
+cd gainers
+nano factory.py
+nano base.py
+nano wsj.py
+nano yahoo.py
+cd
+nano get_gainer.py
+```
+
+### Use example script to file in .py files
+example script supplied fill in factory,base,wsj,yahoo
+```bash
+#nano into each file and adjust code with script template with code from previous lab
+```
+### update Makefile to include gainers
+adding info to makefile to elaborate on testing 
+```bash
+vim makefile
+
+gainers:
+        @if [ -z "$(SRC)" ]; then \
+                echo "Error: SRC parameter is required"; \
+                echo "Usage: make gainers SRC=yahoo"; \
+                echo "   or: make gainers SRC=wsj"; \
+                exit 1; \
+        fi
+        @echo "Processing gainers data from $(SRC)..."
+        @python get_gainer.py $(SRC)
+```
+
+### add test file to tests
+adding test file to tests to test gainers
+```bash
+cd tests
+nano test_gainers.py
+#insert code to test
+#this will allow us to run tests with make file
+```
+
+### test Makefile and test
+run make test, should achieve high lint score and pass all tests
+```bash
+make test
+```
+
+### add mock class EXTRA CREDIT OPTION
+adding mock tests to run test without the need for download
+```bash
+# add mock to factory and section to test mock in test_gainers
+#example
+from bin.gainers.yahoo import GainerDownloadYahoo, GainerProcessYahoo
+from bin.gainers.wsj import GainerDownloadWSJ, GainerProcessWSJ
+from bin.gainers.mock import GainerDownloadMock, GainerProcessMock
+
+class GainerFactory:
+    def __init__(self, choice):
+        assert choice in ['yahoo', 'wsj', 'test'], f"Unrecognized gainer type {choice}"
+        self.choice = choice 
+    
+    def get_downloader(self):
+        if self.choice == 'yahoo':
+            return GainerDownloadYahoo()
+        elif self.choice == 'wsj':
+            return GainerDownloadWSJ()
+        elif self.choice == 'test':
+            return GainerDownloadMock()
+    
+    def get_processor(self):
+        if self.choice == 'yahoo':
+            return GainerProcessYahoo()
+        elif self.choice == 'wsj':
+            return GainerProcessWSJ()
+        elif self.choice == 'test':
+            return GainerProcessMock()
+```
+
 ### push changes
 push changes of normalizer code
 ```bash
@@ -335,6 +417,60 @@ tree . -I env
     └── aws_login.md
 ```
 
+```bash
+.
+├── LICENSE
+├── Makefile
+├── README.md
+├── bin
+│   ├── __pycache__
+│   │   └── normalize_csv.cpython-312.pyc
+│   ├── gainers
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── base.cpython-312.pyc
+│   │   │   ├── factory.cpython-312.pyc
+│   │   │   ├── mock.cpython-312.pyc
+│   │   │   ├── wsj.cpython-312.pyc
+│   │   │   └── yahoo.cpython-312.pyc
+│   │   ├── base.py
+│   │   ├── factory.py
+│   │   ├── mock.py
+│   │   ├── wsj.py
+│   │   └── yahoo.py
+│   └── normalize_csv.py
+├── get_gainer.py
+├── init.sh
+├── mock_gainers.csv
+├── pylintrc
+├── requirements.txt
+├── sample_data
+│   ├── ygainers.csv
+│   ├── ygainers.html
+│   ├── ygainers_norm.csv
+│   └── ygainers_sample.csv
+├── scripts
+│   ├── 00_00_setup_script_for_git_github.md
+│   ├── 00_01_setup_git_global_creds.sh
+│   └── install_chrome.sh
+├── test.txt
+├── tests
+│   ├── __pycache__
+│   │   ├── test_Module_5.cpython-312-pytest-7.4.4.pyc
+│   │   ├── test_Module_5.cpython-312-pytest-8.3.4.pyc
+│   │   ├── test_environment.cpython-312-pytest-7.4.4.pyc
+│   │   └── test_gainers.cpython-312-pytest-7.4.4.pyc
+│   ├── test_Module_5.py
+│   ├── test_environment.py
+│   └── test_gainers.py
+└── text
+    ├── README.md
+    └── aws_login.md
+
+10 directories, 39 files
+```
+
 ## Directory Organization, Sample Data, and Extra Credit
 
 ### Key Directories
@@ -356,5 +492,6 @@ tree . -I env
 * `tests/`: Contains test files for the project
   * `test_Module_5.py`: Tests for Module 5 functionality
   * `test_environment.py`: Tests for environment setup
+  * `test_gainers.py`: Test for gainers
 
 [![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
