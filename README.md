@@ -226,8 +226,65 @@ touch .github/workflows/validations.yml
 ### add yml content
 insert info for feature validation
 ```bash
-mkdir .github/workflows
-touch .github/workflows/validations.yml
+#insert code for workflow valdiation
+name: Feature Validation
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          make update
+      - name: Test with pytest
+        run: |
+          make test
+```
+
+### optional to delete push in the automation
+```bash
+name: Feature Validation
+on:
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python3 -m venv env
+          source env/bin/activate
+          pip install --upgrade pip
+          pip install pytest pylint
+          pip install -r requirements.txt
+      - name: Run tests and linting
+        run: |
+          source env/bin/activate
+          make test
 ```
 
 ### push changes
