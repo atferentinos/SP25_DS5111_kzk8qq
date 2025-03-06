@@ -376,6 +376,49 @@ git add  all .
 git commit -m "note"
 git push
 ```
+
+### activate the environment to test Yahoo and WSJ
+testing gainers
+```bash
+source env/bin/activate
+make gainers SRC=yahoo
+make gainers SRC=wsj
+```
+
+### update Makefile
+update Makefile to encorporate gainers
+```bash
+gainers:
+        @if [ -z "$(SRC)" ]; then \
+                echo "Error: Please specify source with SRC=yahoo or SRC=wsj"; \
+                exit 1; \
+        fi
+        python get_gainer.py --source $(SRC) --output-dir $(OUTPUT_DIR)
+```
+
+### make storage for data collection
+Data_Collection
+```bash
+mkdir Data_Collection_LAB_07
+```
+
+### add timing for CRON
+This way gainers will run throughout the day
+```bash
+crontab -e
+
+# Morning market open (9:31 AM EST)
+31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=yahoo OUTPUT_DIR=Data_Collection_LAB_07
+31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=wsj OUTPUT_DIR=Data_Collection_LAB_07
+
+# Mid-day check (12:30 PM EST)
+30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=yahoo OUTPUT_DIR=Data_Collection_LAB_07
+30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=wsj OUTPUT_DIR=Data_Collection_LAB_07
+
+# Market close (4:01 PM EST)
+1 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=yahoo OUTPUT_DIR=Data_Collection_LAB_07
+1 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=wsj OUTPUT_DIR=Data_Collection_LAB_07
+```
 ****
 
 ### Project Structure
