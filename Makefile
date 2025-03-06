@@ -22,10 +22,9 @@ lint:
 test: lint
 	pytest -vvx tests
 
-# Target to run gainer scraper
 gainers:
 	@if [ -z "$(SRC)" ]; then \
 		echo "Error: Please specify source with SRC=yahoo or SRC=wsj"; \
 		exit 1; \
 	fi
-	python get_gainer.py --source $(SRC)
+	python get_gainer.py --source $(SRC) --output-dir $(OUTPUT_DIR)
