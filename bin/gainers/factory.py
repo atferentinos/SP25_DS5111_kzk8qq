@@ -1,24 +1,47 @@
-from bin.gainers.yahoo import GainerDownloadYahoo, GainerProcessYahoo
-from bin.gainers.wsj import GainerDownloadWSJ, GainerProcessWSJ
-from bin.gainers.mock import GainerDownloadMock, GainerProcessMock
+from bin.gainers.yahoo import YahooGainerDownload, YahooGainerProcess
+from bin.gainers.wsj import WSJGainerDownload, WSJGainerProcess
 
 class GainerFactory:
-    def __init__(self, choice):
-        assert choice in ['yahoo', 'wsj', 'test'], f"Unrecognized gainer type {choice}"
-        self.choice = choice 
+    """Factory class to create appropriate gainer objects."""
     
-    def get_downloader(self):
-        if self.choice == 'yahoo':
-            return GainerDownloadYahoo()
-        elif self.choice == 'wsj':
-            return GainerDownloadWSJ()
-        elif self.choice == 'test':
-            return GainerDownloadMock()
+    @staticmethod
+    def create_downloader(source_type):
+        """
+        Create a downloader object based on source type.
+        
+        Args:
+            source_type (str): Type of source ("yahoo" or "wsj").
+            
+        Returns:
+            GainerDownload: A downloader object.
+            
+        Raises:
+            ValueError: If source_type is not supported.
+        """
+        if source_type.lower() == "yahoo":
+            return YahooGainerDownload()
+        elif source_type.lower() == "wsj":
+            return WSJGainerDownload()
+        else:
+            raise ValueError(f"Unsupported source type: {source_type}")
     
-    def get_processor(self):
-        if self.choice == 'yahoo':
-            return GainerProcessYahoo()
-        elif self.choice == 'wsj':
-            return GainerProcessWSJ()
-        elif self.choice == 'test':
-            return GainerProcessMock()
+    @staticmethod
+    def create_processor(source_type):
+        """
+        Create a processor object based on source type.
+        
+        Args:
+            source_type (str): Type of source ("yahoo" or "wsj").
+            
+        Returns:
+            GainerProcess: A processor object.
+            
+        Raises:
+            ValueError: If source_type is not supported.
+        """
+        if source_type.lower() == "yahoo":
+            return YahooGainerProcess()
+        elif source_type.lower() == "wsj":
+            return WSJGainerProcess()
+        else:
+            raise ValueError(f"Unsupported source type: {source_type}")
