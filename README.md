@@ -407,17 +407,17 @@ This way gainers will run throughout the day
 ```bash
 crontab -e
 
-# Morning market open (9:31 AM EST)
-31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=yahoo OUTPUT_DIR=Data_Collection_LAB_07
-31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=wsj OUTPUT_DIR=Data_Collection_LAB_07
+# Morning market open (9:31 AM ET)
+31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
+31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
 
-# Mid-day check (12:30 PM EST)
-30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=yahoo OUTPUT_DIR=Data_Collection_LAB_07
-30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=wsj OUTPUT_DIR=Data_Collection_LAB_07
+# Mid-day check (12:30 PM ET)
+30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
+30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
 
-# Market close (4:01 PM EST)
-1 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=yahoo OUTPUT_DIR=Data_Collection_LAB_07
-1 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && make gainers SRC=wsj OUTPUT_DIR=Data_Collection_LAB_07
+# Market close (4:01 PM ET)
+01 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
+01 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
 ```
 ****
 
