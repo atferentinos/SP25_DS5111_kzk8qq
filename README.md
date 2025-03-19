@@ -429,6 +429,78 @@ tree . -I env
 
 ```bash
 .
+├── Data_Collection_LAB_07
+│   ├── wsjgainers_norm_20250307_165202.csv
+│   ├── wsjgainers_norm_20250307_165402.csv
+│   ├── wsjgainers_norm_20250307_165602.csv
+│   ├── wsjgainers_norm_20250307_185502.csv
+│   ├── wsjgainers_norm_20250310_154613.csv
+│   ├── wsjgainers_norm_20250310_163102.csv
+│   ├── wsjgainers_norm_20250310_173002.csv
+│   ├── wsjgainers_norm_20250310_191246.csv
+│   ├── wsjgainers_norm_20250310_200420.csv
+│   ├── wsjgainers_norm_20250311_093102.csv
+│   ├── wsjgainers_norm_20250311_123002.csv
+│   ├── wsjgainers_norm_20250311_160103.csv
+│   ├── wsjgainers_norm_20250311_163102.csv
+│   ├── wsjgainers_norm_20250312_093102.csv
+│   ├── wsjgainers_norm_20250312_123002.csv
+│   ├── wsjgainers_norm_20250312_160102.csv
+│   ├── wsjgainers_norm_20250312_163102.csv
+│   ├── wsjgainers_norm_20250313_093102.csv
+│   ├── wsjgainers_norm_20250313_123002.csv
+│   ├── wsjgainers_norm_20250313_160102.csv
+│   ├── wsjgainers_norm_20250313_163101.csv
+│   ├── wsjgainers_norm_20250314_093103.csv
+│   ├── wsjgainers_norm_20250314_123002.csv
+│   ├── wsjgainers_norm_20250314_160102.csv
+│   ├── wsjgainers_norm_20250314_163101.csv
+│   ├── wsjgainers_norm_20250315_163102.csv
+│   ├── wsjgainers_norm_20250316_163102.csv
+│   ├── wsjgainers_norm_20250317_093102.csv
+│   ├── wsjgainers_norm_20250317_123002.csv
+│   ├── wsjgainers_norm_20250317_160103.csv
+│   ├── wsjgainers_norm_20250317_163102.csv
+│   ├── wsjgainers_norm_20250318_093102.csv
+│   ├── wsjgainers_norm_20250318_123002.csv
+│   ├── wsjgainers_norm_20250318_160103.csv
+│   ├── wsjgainers_norm_20250318_163102.csv
+│   ├── ygainers_norm_20250306_012908.csv
+│   ├── ygainers_norm_20250306_174044.csv
+│   ├── ygainers_norm_20250307_165203.csv
+│   ├── ygainers_norm_20250307_165402.csv
+│   ├── ygainers_norm_20250307_165603.csv
+│   ├── ygainers_norm_20250307_185503.csv
+│   ├── ygainers_norm_20250310_154600.csv
+│   ├── ygainers_norm_20250310_163003.csv
+│   ├── ygainers_norm_20250310_173002.csv
+│   ├── ygainers_norm_20250310_191235.csv
+│   ├── ygainers_norm_20250310_200410.csv
+│   ├── ygainers_norm_20250311_093102.csv
+│   ├── ygainers_norm_20250311_123002.csv
+│   ├── ygainers_norm_20250311_160103.csv
+│   ├── ygainers_norm_20250311_163002.csv
+│   ├── ygainers_norm_20250312_093103.csv
+│   ├── ygainers_norm_20250312_123003.csv
+│   ├── ygainers_norm_20250312_160103.csv
+│   ├── ygainers_norm_20250312_163002.csv
+│   ├── ygainers_norm_20250313_123003.csv
+│   ├── ygainers_norm_20250313_160103.csv
+│   ├── ygainers_norm_20250313_163002.csv
+│   ├── ygainers_norm_20250314_093103.csv
+│   ├── ygainers_norm_20250314_123003.csv
+│   ├── ygainers_norm_20250314_160103.csv
+│   ├── ygainers_norm_20250314_163002.csv
+│   ├── ygainers_norm_20250315_163002.csv
+│   ├── ygainers_norm_20250316_163002.csv
+│   ├── ygainers_norm_20250317_093102.csv
+│   ├── ygainers_norm_20250317_123002.csv
+│   ├── ygainers_norm_20250317_160103.csv
+│   ├── ygainers_norm_20250317_163002.csv
+│   ├── ygainers_norm_20250318_093103.csv
+│   ├── ygainers_norm_20250318_123002.csv
+│   ├── ygainers_norm_20250318_160103.csv
+│   └── ygainers_norm_20250318_163002.csv
 ├── LICENSE
 ├── Makefile
 ├── README.md
@@ -450,6 +522,12 @@ tree . -I env
 │   │   ├── wsj.py
 │   │   └── yahoo.py
 │   └── normalize_csv.py
+├── data
+│   ├── wsj_gainers_norm_20250305_232906.csv
+│   ├── wsjgainers_norm_20250306_010005.csv
+│   ├── ygainers_norm_20250305_231843.csv
+│   ├── ygainers_norm_20250306_001722.csv
+│   └── ygainers_norm_20250306_010104.csv
 ├── get_gainer.py
 ├── init.sh
 ├── mock_gainers.csv
@@ -464,13 +542,25 @@ tree . -I env
 │   ├── 00_00_setup_script_for_git_github.md
 │   ├── 00_01_setup_git_global_creds.sh
 │   └── install_chrome.sh
-├── test.txt
+├── storage
+│   ├── test.txt
+│   ├── wsj_gainers.csv
+│   ├── wsj_gainers.html
+│   ├── wsj_gainers_norm.csv
+│   ├── wsjgainers.csv
+│   ├── wsjgainers.html
+│   ├── wsjgainers_norm.csv
+│   ├── ygainers.csv
+│   ├── ygainers.html
+│   └── ygainers_norm.csv
 ├── tests
 │   ├── __pycache__
 │   │   ├── test_Module_5.cpython-312-pytest-7.4.4.pyc
 │   │   ├── test_Module_5.cpython-312-pytest-8.3.4.pyc
 │   │   ├── test_environment.cpython-312-pytest-7.4.4.pyc
-│   │   └── test_gainers.cpython-312-pytest-7.4.4.pyc
+│   │   ├── test_environment.cpython-312-pytest-8.3.4.pyc
+│   │   ├── test_gainers.cpython-312-pytest-7.4.4.pyc
+│   │   └── test_gainers.cpython-312-pytest-8.3.4.pyc
 │   ├── test_Module_5.py
 │   ├── test_environment.py
 │   └── test_gainers.py
@@ -478,7 +568,7 @@ tree . -I env
     ├── README.md
     └── aws_login.md
 
-10 directories, 39 files
+13 directories, 126 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
@@ -506,6 +596,11 @@ tree . -I env
  * `ygainers.html`: HTML output from running Makefile
  * `ygainers.csv`: CSV output from running Makefile
  * `ygainers_norm.csv`: Normalized version of the CSV data
+* `storage/`: Contains data files moved from the root directory
+ * `test.txt`: Test file
+ * `wsj_gainers.csv`, `wsj_gainers.html`, `wsj_gainers_norm.csv`: Wall Street Journal data files
+ * `wsjgainers.csv`, `wsjgainers.html`, `wsjgainers_norm.csv`: WSJ data files in alternate format
+ * `ygainers.csv`, `ygainers.html`, `ygainers_norm.csv`: Yahoo Finance data files
 * `tests/`: Contains test files for the project
  * `test_Module_5.py`: Tests for Module 5 functionality
  * `test_environment.py`: Tests for environment setup
