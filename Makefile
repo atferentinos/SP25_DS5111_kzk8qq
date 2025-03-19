@@ -24,10 +24,7 @@ test: lint
 
 gainers:
 	@if [ -z "$(SRC)" ]; then \
-		echo "Error: SRC parameter is required"; \
-		echo "Usage: make gainers SRC=yahoo"; \
-		echo "   or: make gainers SRC=wsj"; \
+		echo "Error: Please specify source with SRC=yahoo or SRC=wsj"; \
 		exit 1; \
 	fi
-	@echo "Processing gainers data from $(SRC)..."
-	@python get_gainer.py $(SRC)
+	python get_gainer.py --source $(SRC) --output-dir $(OUTPUT_DIR)

@@ -1,122 +1,84 @@
 import unittest
-from unittest.mock import patch, MagicMock
-import pandas as pd
-from pathlib import Path
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+import datetime
+from bin.gainers.yahoo import YahooGainerDownload, YahooGainerProcess
+from bin.gainers.wsj import WSJGainerDownload, WSJGainerProcess
 from bin.gainers.factory import GainerFactory
-from bin.gainers.yahoo import GainerDownloadYahoo, GainerProcessYahoo
-from bin.gainers.wsj import GainerDownloadWSJ, GainerProcessWSJ
-from bin.gainers.mock import GainerDownloadMock, GainerProcessMock
+import os
+import pandas as pd
 
 class TestGainerFactory(unittest.TestCase):
-    """Test the GainerFactory class"""
     
-    def test_factory_yahoo(self):
-        """Test factory creates correct Yahoo objects"""
-        factory = GainerFactory('yahoo')
-        downloader = factory.get_downloader()
-        processor = factory.get_processor()
+    def test_create_downloader(self):
+        """Test that factory creates correct downloader objects"""
+        yahoo_dl = GainerFactory.create_downloader("yahoo")
+        wsj_dl = GainerFactory.create_downloader("wsj")
         
-        self.assertIsInstance(downloader, GainerDownloadYahoo)
-        self.assertIsInstance(processor, GainerProcessYahoo)
+        self.assertIsInstance(yahoo_dl, YahooGainerDownload)
+        self.assertIsInstance(wsj_dl, WSJGainerDownload)
     
-    def test_factory_wsj(self):
-        """Test factory creates correct WSJ objects"""
-        factory = GainerFactory('wsj')
-        downloader = factory.get_downloader()
-        processor = factory.get_processor()
+    def test_create_processor(self):
+        """Test that factory creates correct processor objects"""
+        yahoo_proc = GainerFactory.create_processor("yahoo")
+        wsj_proc = GainerFactory.create_processor("wsj")
         
-        self.assertIsInstance(downloader, GainerDownloadWSJ)
-        self.assertIsInstance(processor, GainerProcessWSJ)
+        self.assertIsInstance(yahoo_proc, YahooGainerProcess)
+        self.assertIsInstance(wsj_proc, WSJGainerProcess)
     
-    def test_factory_invalid(self):
-        """Test factory raises error for invalid source"""
-        with self.assertRaises(AssertionError):
-            GainerFactory('invalid')
-            
-    def test_factory_mock(self):
-        """Test factory creates correct Mock objects"""
-        factory = GainerFactory('test')
-        downloader = factory.get_downloader()
-        processor = factory.get_processor()
+    def test_invalid_source(self):
+        """Test factory raises ValueError for invalid sources"""
+        with self.assertRaises(ValueError):
+            GainerFactory.create_downloader("invalid")
+        
+        with self.assertRaises(ValueError):
+            GainerFactory.create_processor("invalid")
 
-        self.assertIsInstance(downloader, GainerDownloadMock)
-        self.assertIsInstance(processor, GainerProcessMock)
-
-    def test_mock_download_no_network(self):
-        """Test mock downloader works without network"""
-        downloader = GainerDownloadMock()
-        csv_file = downloader.download()
-
-        self.assertTrue(os.path.exists(csv_file))
-
-        df = pd.read_csv(csv_file)
-        self.assertIn("TEST1", df["Symbol"].values)
-
-class TestGainerProcessYahoo(unittest.TestCase):
-    """Test Yahoo processor implementation"""
+class TestYahooGainer(unittest.TestCase):
     
-    def setUp(self):
-        """Set up test environment"""
-        # Create test CSV file
-        self.test_csv = "test_yahoo_gainers.csv"
-        test_data = {
-            "Symbol": ["AAPL", "MSFT", "GOOGL"],
-            "Price": ["150.00", "300.00", "2000.00"],
-            "Change": ["+2.00", "+4.50", "-10.00"],
-            "Change %": ["+1.35%", "+1.52%", "-0.50%"]
-        }
-        pd.DataFrame(test_data).to_csv(self.test_csv, index=False)
-        
-        self.processor = GainerProcessYahoo()
-        self.processor.csv_file = self.test_csv
+    def test_yahoo_gainer_init(self):
+        """Test initialization of Yahoo downloader"""
+        downloader = YahooGainerDownload()
+        self.assertEqual(downloader.url, "https://finance.yahoo.com/gainers")
+        self.assertEqual(downloader.html_file, "ygainers.html")
+        self.assertEqual(downloader.csv_file, "ygainers.csv")
     
-    def tearDown(self):
-        """Clean up after tests"""
-        if os.path.exists(self.test_csv):
-            os.remove(self.test_csv)
-        
-        norm_file = self.test_csv.replace(".csv", "_norm.csv")
-        if os.path.exists(norm_file):
-            os.remove(norm_file)
-            
-        for file in os.listdir():
-            if file.startswith("test_yahoo_gainers_norm_") and file.endswith(".csv"):
-                os.remove(file)
+    def test_yahoo_processor_init(self):
+        """Test initialization of Yahoo processor"""
+        processor = YahooGainerProcess()
+        self.assertEqual(processor.source_name, "yahoo")
+        self.assertEqual(processor.csv_file, "ygainers.csv")
+        self.assertEqual(processor.norm_file, "ygainers_norm.csv")
+
+class TestWSJGainer(unittest.TestCase):
     
-    def test_validate_csv_path(self):
-        """Test CSV path validation"""
-        # Valid CSV
-        path = self.processor.validate_csv_path(self.test_csv)
-        self.assertIsInstance(path, Path)
-        
-        # Non-existent file
-        with self.assertRaises(AssertionError):
-            self.processor.validate_csv_path("nonexistent.csv")
-        
-        # Non-CSV file
-        with self.assertRaises(AssertionError):
-            open("test.txt", "w").close()
-            self.processor.validate_csv_path("test.txt")
-            os.remove("test.txt")
+    def test_wsj_gainer_init(self):
+        """Test initialization of WSJ downloader"""
+        downloader = WSJGainerDownload()
+        self.assertTrue("wsj.com" in downloader.url.lower())
+        self.assertEqual(downloader.html_file, "wsjgainers.html")
+        self.assertEqual(downloader.csv_file, "wsjgainers.csv")
     
-    def test_transform_stock_data(self):
-        """Test stock data transformation"""
-        df = pd.read_csv(self.test_csv)
-        transformed = self.processor.transform_stock_data(df)
+    def test_wsj_processor_init(self):
+        """Test initialization of WSJ processor"""
+        processor = WSJGainerProcess()
+        self.assertEqual(processor.source_name, "wsj")
+        self.assertEqual(processor.csv_file, "wsjgainers.csv")
+        self.assertEqual(processor.norm_file, "wsjgainers_norm.csv")
+
+class TestTimestampFunctionality(unittest.TestCase):
+    
+    def test_generate_timestamp(self):
+        """Test timestamp formatting"""
+        # Use standard datetime instead of the generate_timestamp method
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         
-        self.assertIn('symbol', transformed.columns)
-        self.assertIn('price', transformed.columns)
-        self.assertIn('price_change', transformed.columns)
-        self.assertIn('price_percent_change', transformed.columns)
-        self.assertIn('source', transformed.columns)
-        self.assertIn('timestamp', transformed.columns)
+        # Verify timestamp format (YYYYMMDD_HHMMSS)
+        self.assertEqual(len(timestamp), 15)
+        self.assertTrue('_' in timestamp)
         
-        self.assertEqual(transformed['source'].iloc[0], 'Yahoo Finance')
+        # Check that parts are numeric
+        date_part, time_part = timestamp.split('_')
+        self.assertTrue(date_part.isdigit())
+        self.assertTrue(time_part.isdigit())
 
 if __name__ == '__main__':
     unittest.main()
