@@ -553,6 +553,12 @@ Added Image so I can refer to later
 #added file through github interactions
 #mermaid-diagram-2025-03-23-150300.png
 ```
+### Filed in ERD.md in root directory with Report Outline
+Added Image so I can refer to later
+```bash
+nano ERD.md
+#add the report and code for ERD
+```
 ### Project Structure
 Tree command to check structure
 ```bash
@@ -633,6 +639,7 @@ tree . -I env
 │   ├── ygainers_norm_20250318_123002.csv
 │   ├── ygainers_norm_20250318_160103.csv
 │   └── ygainers_norm_20250318_163002.csv
+├── ERD.md
 ├── LICENSE
 ├── Makefile
 ├── README.md
@@ -662,6 +669,7 @@ tree . -I env
 │   └── ygainers_norm_20250306_010104.csv
 ├── get_gainer.py
 ├── init.sh
+├── mermaid-diagram-2025-03-23-150300.png
 ├── mock_gainers.csv
 ├── pylintrc
 ├── requirements.txt
@@ -700,14 +708,17 @@ tree . -I env
     ├── README.md
     └── aws_login.md
 
-13 directories, 126 files
+13 directories, 128 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
 
-### Key Directories
-* Root directory: Contains essential setup files
-* `bin/`: Contains Python scripts for data processing
+# Project Directory Structure
+
+## Key Directories
+
+* **Root directory**: Contains essential setup files (`LICENSE`, `README.md`, `Makefile`, `requirements.txt`)
+* **`bin/`**: Contains Python scripts for data processing
  * `normalize_csv.py`: Script for normalizing CSV data
  * `gainers/`: Package directory for gainer data collection
    * `__init__.py`: Package initialization file
@@ -716,26 +727,30 @@ tree . -I env
    * `mock.py`: Mock implementation for testing
    * `wsj.py`: Wall Street Journal data scraper implementation
    * `yahoo.py`: Yahoo Finance data scraper implementation
-* `init.sh`: VM initialization script
-* `Makefile`: Manages Python environment and data collection
-* `requirements.txt`: Python dependencies
-* `scripts/`: Utility scripts
- * `install_chrome.sh`: Chrome headless browser installer
- * `00_00_setup_script_for_git_github.md`: Git setup guide
- * `00_01_setup_git_global_creds.sh`: Git credentials setup script
-* `sample_data/`: Example datasets
+* **`Data_Collection_LAB_07/`**: Contains collection CSV files
+ * Spring Break Run `wsjgainers_norm_*.csv` 
+ * Spring Break Run `ygainers_norm_*.csv` 
+* **`data/`**: Contains baseline normalized CSV files
+ * `wsj_gainers_norm_*.csv`: Initial Wall Street Journal data
+ * `wsjgainers_norm_*.csv`: Alternative format Wall Street Journal data
+ * `ygainers_norm_*.csv`: Initial Yahoo Finance data
+* **`sample_data/`**: Example datasets
  * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
  * `ygainers.html`: HTML output from running Makefile
  * `ygainers.csv`: CSV output from running Makefile
  * `ygainers_norm.csv`: Normalized version of the CSV data
-* `storage/`: Contains data files moved from the root directory
- * `test.txt`: Test file
- * `wsj_gainers.csv`, `wsj_gainers.html`, `wsj_gainers_norm.csv`: Wall Street Journal data files
- * `wsjgainers.csv`, `wsjgainers.html`, `wsjgainers_norm.csv`: WSJ data files in alternate format
- * `ygainers.csv`, `ygainers.html`, `ygainers_norm.csv`: Yahoo Finance data files
-* `tests/`: Contains test files for the project
+* **`scripts/`**: Utility scripts
+ * `install_chrome.sh`: Chrome headless browser installer
+ * `00_00_setup_script_for_git_github.md`: Git setup guide
+ * `00_01_setup_git_global_creds.sh`: Git credentials setup script
+* **`storage/`**: Contains data files moved from the root directory
+ * Various `.csv` and `.html` files for both WSJ and Yahoo Finance data
+* **`tests/`**: Contains test files for the project
  * `test_Module_5.py`: Tests for Module 5 functionality
  * `test_environment.py`: Tests for environment setup
  * `test_gainers.py`: Tests for gainers functionality
+* **`text/`**: Documentation directory
+ * `README.md`: Additional documentation
+ * `aws_login.md`: AWS login information
 
 [![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
