@@ -12,6 +12,7 @@ Learning goals:
 * pylint to refactor our code
 * get workflow operational
 * add badge to demonstrate the test are passing
+* applying Design Patterns to code
 
 # 1 Documenting and automatng a way to recreate VM for project
 ## 1.1 Automating the sequence to recreate VM. 
@@ -287,12 +288,136 @@ jobs:
           make test
 ```
 
+### Create directory Structure and add files
+directory structure 
+```bash
+cd bin
+mkdir gainers
+cd gainers
+nano factory.py
+nano base.py
+nano wsj.py
+nano yahoo.py
+cd
+nano get_gainer.py
+```
+
+### Use example script to file in .py files
+example script supplied fill in factory,base,wsj,yahoo
+```bash
+#nano into each file and adjust code with script template with code from previous lab
+```
+### update Makefile to include gainers
+adding info to makefile to elaborate on testing 
+```bash
+vim makefile
+
+gainers:
+        @if [ -z "$(SRC)" ]; then \
+                echo "Error: SRC parameter is required"; \
+                echo "Usage: make gainers SRC=yahoo"; \
+                echo "   or: make gainers SRC=wsj"; \
+                exit 1; \
+        fi
+        @echo "Processing gainers data from $(SRC)..."
+        @python get_gainer.py $(SRC)
+```
+
+### add test file to tests
+adding test file to tests to test gainers
+```bash
+cd tests
+nano test_gainers.py
+#insert code to test
+#this will allow us to run tests with make file
+```
+
+### test Makefile and test
+run make test, should achieve high lint score and pass all tests
+```bash
+make test
+```
+
+### add mock class EXTRA CREDIT OPTION
+adding mock tests to run test without the need for download
+```bash
+# add mock to factory and section to test mock in test_gainers
+#example
+from bin.gainers.yahoo import GainerDownloadYahoo, GainerProcessYahoo
+from bin.gainers.wsj import GainerDownloadWSJ, GainerProcessWSJ
+from bin.gainers.mock import GainerDownloadMock, GainerProcessMock
+
+class GainerFactory:
+    def __init__(self, choice):
+        assert choice in ['yahoo', 'wsj', 'test'], f"Unrecognized gainer type {choice}"
+        self.choice = choice 
+    
+    def get_downloader(self):
+        if self.choice == 'yahoo':
+            return GainerDownloadYahoo()
+        elif self.choice == 'wsj':
+            return GainerDownloadWSJ()
+        elif self.choice == 'test':
+            return GainerDownloadMock()
+    
+    def get_processor(self):
+        if self.choice == 'yahoo':
+            return GainerProcessYahoo()
+        elif self.choice == 'wsj':
+            return GainerProcessWSJ()
+        elif self.choice == 'test':
+            return GainerProcessMock()
+```
+
 ### push changes
 push changes of normalizer code
 ```bash
 git add  all .
 git commit -m "note"
 git push
+```
+
+### activate the environment to test Yahoo and WSJ
+testing gainers
+```bash
+source env/bin/activate
+make gainers SRC=yahoo
+make gainers SRC=wsj
+```
+
+### update Makefile
+update Makefile to encorporate gainers
+```bash
+gainers:
+        @if [ -z "$(SRC)" ]; then \
+                echo "Error: Please specify source with SRC=yahoo or SRC=wsj"; \
+                exit 1; \
+        fi
+        python get_gainer.py --source $(SRC) --output-dir $(OUTPUT_DIR)
+```
+
+### make storage for data collection
+Data_Collection
+```bash
+mkdir Data_Collection_LAB_07
+```
+
+### add timing for CRON
+This way gainers will run throughout the day
+```bash
+crontab -e
+
+# Morning market open (9:31 AM ET)
+31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
+31 9 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
+
+# Mid-day check (12:30 PM ET)
+30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
+30 12 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
+
+# Market close (4:01 PM ET)
+01 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
+01 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
 ```
 ****
 
@@ -304,14 +429,108 @@ tree . -I env
 
 ```bash
 .
+├── Data_Collection_LAB_07
+│   ├── wsjgainers_norm_20250307_165202.csv
+│   ├── wsjgainers_norm_20250307_165402.csv
+│   ├── wsjgainers_norm_20250307_165602.csv
+│   ├── wsjgainers_norm_20250307_185502.csv
+│   ├── wsjgainers_norm_20250310_154613.csv
+│   ├── wsjgainers_norm_20250310_163102.csv
+│   ├── wsjgainers_norm_20250310_173002.csv
+│   ├── wsjgainers_norm_20250310_191246.csv
+│   ├── wsjgainers_norm_20250310_200420.csv
+│   ├── wsjgainers_norm_20250311_093102.csv
+│   ├── wsjgainers_norm_20250311_123002.csv
+│   ├── wsjgainers_norm_20250311_160103.csv
+│   ├── wsjgainers_norm_20250311_163102.csv
+│   ├── wsjgainers_norm_20250312_093102.csv
+│   ├── wsjgainers_norm_20250312_123002.csv
+│   ├── wsjgainers_norm_20250312_160102.csv
+│   ├── wsjgainers_norm_20250312_163102.csv
+│   ├── wsjgainers_norm_20250313_093102.csv
+│   ├── wsjgainers_norm_20250313_123002.csv
+│   ├── wsjgainers_norm_20250313_160102.csv
+│   ├── wsjgainers_norm_20250313_163101.csv
+│   ├── wsjgainers_norm_20250314_093103.csv
+│   ├── wsjgainers_norm_20250314_123002.csv
+│   ├── wsjgainers_norm_20250314_160102.csv
+│   ├── wsjgainers_norm_20250314_163101.csv
+│   ├── wsjgainers_norm_20250315_163102.csv
+│   ├── wsjgainers_norm_20250316_163102.csv
+│   ├── wsjgainers_norm_20250317_093102.csv
+│   ├── wsjgainers_norm_20250317_123002.csv
+│   ├── wsjgainers_norm_20250317_160103.csv
+│   ├── wsjgainers_norm_20250317_163102.csv
+│   ├── wsjgainers_norm_20250318_093102.csv
+│   ├── wsjgainers_norm_20250318_123002.csv
+│   ├── wsjgainers_norm_20250318_160103.csv
+│   ├── wsjgainers_norm_20250318_163102.csv
+│   ├── ygainers_norm_20250306_012908.csv
+│   ├── ygainers_norm_20250306_174044.csv
+│   ├── ygainers_norm_20250307_165203.csv
+│   ├── ygainers_norm_20250307_165402.csv
+│   ├── ygainers_norm_20250307_165603.csv
+│   ├── ygainers_norm_20250307_185503.csv
+│   ├── ygainers_norm_20250310_154600.csv
+│   ├── ygainers_norm_20250310_163003.csv
+│   ├── ygainers_norm_20250310_173002.csv
+│   ├── ygainers_norm_20250310_191235.csv
+│   ├── ygainers_norm_20250310_200410.csv
+│   ├── ygainers_norm_20250311_093102.csv
+│   ├── ygainers_norm_20250311_123002.csv
+│   ├── ygainers_norm_20250311_160103.csv
+│   ├── ygainers_norm_20250311_163002.csv
+│   ├── ygainers_norm_20250312_093103.csv
+│   ├── ygainers_norm_20250312_123003.csv
+│   ├── ygainers_norm_20250312_160103.csv
+│   ├── ygainers_norm_20250312_163002.csv
+│   ├── ygainers_norm_20250313_123003.csv
+│   ├── ygainers_norm_20250313_160103.csv
+│   ├── ygainers_norm_20250313_163002.csv
+│   ├── ygainers_norm_20250314_093103.csv
+│   ├── ygainers_norm_20250314_123003.csv
+│   ├── ygainers_norm_20250314_160103.csv
+│   ├── ygainers_norm_20250314_163002.csv
+│   ├── ygainers_norm_20250315_163002.csv
+│   ├── ygainers_norm_20250316_163002.csv
+│   ├── ygainers_norm_20250317_093102.csv
+│   ├── ygainers_norm_20250317_123002.csv
+│   ├── ygainers_norm_20250317_160103.csv
+│   ├── ygainers_norm_20250317_163002.csv
+│   ├── ygainers_norm_20250318_093103.csv
+│   ├── ygainers_norm_20250318_123002.csv
+│   ├── ygainers_norm_20250318_160103.csv
+│   └── ygainers_norm_20250318_163002.csv
 ├── LICENSE
 ├── Makefile
 ├── README.md
 ├── bin
 │   ├── __pycache__
 │   │   └── normalize_csv.cpython-312.pyc
+│   ├── gainers
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── base.cpython-312.pyc
+│   │   │   ├── factory.cpython-312.pyc
+│   │   │   ├── mock.cpython-312.pyc
+│   │   │   ├── wsj.cpython-312.pyc
+│   │   │   └── yahoo.cpython-312.pyc
+│   │   ├── base.py
+│   │   ├── factory.py
+│   │   ├── mock.py
+│   │   ├── wsj.py
+│   │   └── yahoo.py
 │   └── normalize_csv.py
+├── data
+│   ├── wsj_gainers_norm_20250305_232906.csv
+│   ├── wsjgainers_norm_20250306_010005.csv
+│   ├── ygainers_norm_20250305_231843.csv
+│   ├── ygainers_norm_20250306_001722.csv
+│   └── ygainers_norm_20250306_010104.csv
+├── get_gainer.py
 ├── init.sh
+├── mock_gainers.csv
 ├── pylintrc
 ├── requirements.txt
 ├── sample_data
@@ -323,16 +542,33 @@ tree . -I env
 │   ├── 00_00_setup_script_for_git_github.md
 │   ├── 00_01_setup_git_global_creds.sh
 │   └── install_chrome.sh
+├── storage
+│   ├── test.txt
+│   ├── wsj_gainers.csv
+│   ├── wsj_gainers.html
+│   ├── wsj_gainers_norm.csv
+│   ├── wsjgainers.csv
+│   ├── wsjgainers.html
+│   ├── wsjgainers_norm.csv
+│   ├── ygainers.csv
+│   ├── ygainers.html
+│   └── ygainers_norm.csv
 ├── tests
 │   ├── __pycache__
 │   │   ├── test_Module_5.cpython-312-pytest-7.4.4.pyc
 │   │   ├── test_Module_5.cpython-312-pytest-8.3.4.pyc
-│   │   └── test_environment.cpython-312-pytest-7.4.4.pyc
+│   │   ├── test_environment.cpython-312-pytest-7.4.4.pyc
+│   │   ├── test_environment.cpython-312-pytest-8.3.4.pyc
+│   │   ├── test_gainers.cpython-312-pytest-7.4.4.pyc
+│   │   └── test_gainers.cpython-312-pytest-8.3.4.pyc
 │   ├── test_Module_5.py
-│   └── test_environment.py
+│   ├── test_environment.py
+│   └── test_gainers.py
 └── text
     ├── README.md
     └── aws_login.md
+
+13 directories, 126 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
@@ -340,21 +576,34 @@ tree . -I env
 ### Key Directories
 * Root directory: Contains essential setup files
 * `bin/`: Contains Python scripts for data processing
-  * `normalize_csv.py`: Script for normalizing CSV data
+ * `normalize_csv.py`: Script for normalizing CSV data
+ * `gainers/`: Package directory for gainer data collection
+   * `__init__.py`: Package initialization file
+   * `base.py`: Base class for gainer implementations
+   * `factory.py`: Factory pattern implementation for gainer selection
+   * `mock.py`: Mock implementation for testing
+   * `wsj.py`: Wall Street Journal data scraper implementation
+   * `yahoo.py`: Yahoo Finance data scraper implementation
 * `init.sh`: VM initialization script
 * `Makefile`: Manages Python environment and data collection
 * `requirements.txt`: Python dependencies
 * `scripts/`: Utility scripts
-  * `install_chrome.sh`: Chrome headless browser installer
-  * `00_00_setup_script_for_git_github.md`: Git setup guide
-  * `00_01_setup_git_global_creds.sh`: Git credentials setup script
+ * `install_chrome.sh`: Chrome headless browser installer
+ * `00_00_setup_script_for_git_github.md`: Git setup guide
+ * `00_01_setup_git_global_creds.sh`: Git credentials setup script
 * `sample_data/`: Example datasets
-  * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
-  * `ygainers.html`: HTML output from running Makefile
-  * `ygainers.csv`: CSV output from running Makefile
-  * `ygainers_norm.csv`: Normalized version of the CSV data
+ * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
+ * `ygainers.html`: HTML output from running Makefile
+ * `ygainers.csv`: CSV output from running Makefile
+ * `ygainers_norm.csv`: Normalized version of the CSV data
+* `storage/`: Contains data files moved from the root directory
+ * `test.txt`: Test file
+ * `wsj_gainers.csv`, `wsj_gainers.html`, `wsj_gainers_norm.csv`: Wall Street Journal data files
+ * `wsjgainers.csv`, `wsjgainers.html`, `wsjgainers_norm.csv`: WSJ data files in alternate format
+ * `ygainers.csv`, `ygainers.html`, `ygainers_norm.csv`: Yahoo Finance data files
 * `tests/`: Contains test files for the project
-  * `test_Module_5.py`: Tests for Module 5 functionality
-  * `test_environment.py`: Tests for environment setup
+ * `test_Module_5.py`: Tests for Module 5 functionality
+ * `test_environment.py`: Tests for environment setup
+ * `test_gainers.py`: Tests for gainers functionality
 
 [![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
