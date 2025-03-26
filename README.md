@@ -559,12 +559,41 @@ Added Image so I can refer to later
 nano ERD.md
 #add the report and code for ERD
 ```
+### Set up Snowflake login in with professor
+ensured had snowflake access 
+add installs to requirements folder
+```bash
+vim requirements.txt
+dbt-core
+dbt-snowflake
+```
+### make project directory
+```bash
+mkdir projects
+```
+### set up DBT initialization
+```bash
+dbt init project
+Enter a Number: 1 # should be the only option
+account: rja95216
+user: your uva email address
+password: DS5111<uvaid>
+role: DS5111_DBT
+warehouse: COMPUTE_WH
+database: DATA_SCIENCE
+schema: <uvaid>
+threads: 1
+```
+### test dbt debug for connection
+```bash
+#navigate to gainers folders in projects
+dbt debug
+```
 ### Project Structure
 Tree command to check structure
 ```bash
 tree . -I env
 ```
-
 ```bash
 .
 ├── Data_Collection_LAB_07
@@ -669,8 +698,47 @@ tree . -I env
 │   └── ygainers_norm_20250306_010104.csv
 ├── get_gainer.py
 ├── init.sh
+├── logs
+│   └── dbt.log
 ├── mermaid-diagram-2025-03-23-150300.png
 ├── mock_gainers.csv
+├── projects
+│   ├── gainers
+│   │   ├── README.md
+│   │   ├── analyses
+│   │   ├── dbt_project.yml
+│   │   ├── logs
+│   │   │   └── dbt.log
+│   │   ├── macros
+│   │   ├── models
+│   │   │   └── example
+│   │   │       ├── my_first_dbt_model.sql
+│   │   │       ├── my_second_dbt_model.sql
+│   │   │       └── schema.yml
+│   │   ├── seeds
+│   │   ├── snapshots
+│   │   ├── target
+│   │   │   ├── compiled
+│   │   │   │   └── gainers
+│   │   │   │       └── models
+│   │   │   │           └── example
+│   │   │   │               ├── my_first_dbt_model.sql
+│   │   │   │               └── my_second_dbt_model.sql
+│   │   │   ├── graph.gpickle
+│   │   │   ├── graph_summary.json
+│   │   │   ├── manifest.json
+│   │   │   ├── partial_parse.msgpack
+│   │   │   ├── run
+│   │   │   │   └── gainers
+│   │   │   │       └── models
+│   │   │   │           └── example
+│   │   │   │               ├── my_first_dbt_model.sql
+│   │   │   │               └── my_second_dbt_model.sql
+│   │   │   ├── run_results.json
+│   │   │   └── semantic_manifest.json
+│   │   └── tests
+│   └── logs
+│       └── dbt.log
 ├── pylintrc
 ├── requirements.txt
 ├── sample_data
@@ -708,49 +776,53 @@ tree . -I env
     ├── README.md
     └── aws_login.md
 
-13 directories, 128 files
+34 directories, 146 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
+# Updated Key Directories
 
-# Project Directory Structure
-
-## Key Directories
-
-* **Root directory**: Contains essential setup files (`LICENSE`, `README.md`, `Makefile`, `requirements.txt`)
+* **Root directory**: Contains essential setup files (`LICENSE`, `README.md`, `Makefile`, `requirements.txt`, `init.sh`, `get_gainer.py`, `pylintrc`, `ERD.md`)
 * **`bin/`**: Contains Python scripts for data processing
- * `normalize_csv.py`: Script for normalizing CSV data
- * `gainers/`: Package directory for gainer data collection
-   * `__init__.py`: Package initialization file
-   * `base.py`: Base class for gainer implementations
-   * `factory.py`: Factory pattern implementation for gainer selection
-   * `mock.py`: Mock implementation for testing
-   * `wsj.py`: Wall Street Journal data scraper implementation
-   * `yahoo.py`: Yahoo Finance data scraper implementation
-* **`Data_Collection_LAB_07/`**: Contains collection CSV files
- * Spring Break Run `wsjgainers_norm_*.csv` 
- * Spring Break Run `ygainers_norm_*.csv` 
+  * `normalize_csv.py`: Script for normalizing CSV data
+  * `gainers/`: Package directory for gainer data collection
+    * `__init__.py`: Package initialization file
+    * `base.py`: Base class for gainer implementations
+    * `factory.py`: Factory pattern implementation for gainer selection
+    * `mock.py`: Mock implementation for testing
+    * `wsj.py`: Wall Street Journal data scraper implementation
+    * `yahoo.py`: Yahoo Finance data scraper implementation
+* **`Data_Collection_LAB_07/`**: Contains extensive collection of CSV files
+  * Multiple `wsjgainers_norm_*.csv` files from March 7-18, 2025
+  * Multiple `ygainers_norm_*.csv` files from March 6-18, 2025
 * **`data/`**: Contains baseline normalized CSV files
- * `wsj_gainers_norm_*.csv`: Initial Wall Street Journal data
- * `wsjgainers_norm_*.csv`: Alternative format Wall Street Journal data
- * `ygainers_norm_*.csv`: Initial Yahoo Finance data
+  * `wsj_gainers_norm_*.csv`: Initial Wall Street Journal data
+  * `wsjgainers_norm_*.csv`: Alternative format Wall Street Journal data
+  * `ygainers_norm_*.csv`: Initial Yahoo Finance data
+* **`logs/`**: Contains log files
+  * `dbt.log`: DBT logging information
+* **`projects/`**: Contains DBT project files
+  * `gainers/`: DBT project directory
+    * Standard DBT structure with models, macros, tests, etc.
+    * Contains compiled SQL models in the target directory
+  * `logs/`: Additional log directory for DBT
 * **`sample_data/`**: Example datasets
- * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
- * `ygainers.html`: HTML output from running Makefile
- * `ygainers.csv`: CSV output from running Makefile
- * `ygainers_norm.csv`: Normalized version of the CSV data
+  * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
+  * `ygainers.html`: HTML output from running Makefile
+  * `ygainers.csv`: CSV output from running Makefile
+  * `ygainers_norm.csv`: Normalized version of the CSV data
 * **`scripts/`**: Utility scripts
- * `install_chrome.sh`: Chrome headless browser installer
- * `00_00_setup_script_for_git_github.md`: Git setup guide
- * `00_01_setup_git_global_creds.sh`: Git credentials setup script
+  * `install_chrome.sh`: Chrome headless browser installer
+  * `00_00_setup_script_for_git_github.md`: Git setup guide
+  * `00_01_setup_git_global_creds.sh`: Git credentials setup script
 * **`storage/`**: Contains data files moved from the root directory
- * Various `.csv` and `.html` files for both WSJ and Yahoo Finance data
+  * Various `.csv` and `.html` files for both WSJ and Yahoo Finance data
 * **`tests/`**: Contains test files for the project
- * `test_Module_5.py`: Tests for Module 5 functionality
- * `test_environment.py`: Tests for environment setup
- * `test_gainers.py`: Tests for gainers functionality
-* **`text/`**: Documentation directory
- * `README.md`: Additional documentation
- * `aws_login.md`: AWS login information
+  * `test_Module_5.py`: Tests for Module 5 functionality
+  * `test_environment.py`: Tests for environment setup
+  * `test_gainers.py`: Tests for gainers functionality
+* **`text/`**: Docs
+  * `README.md`: Additional documentation
+  * `aws_login.md`: AWS login information
 
 [![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
