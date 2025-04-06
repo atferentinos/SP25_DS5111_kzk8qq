@@ -589,6 +589,65 @@ threads: 1
 #navigate to gainers folders in projects
 dbt debug
 ```
+### test with snowflake and dbt
+```bash
+#create numbers.csv
+nano numbers.csv
+#paste
+en,sp,fr,de
+one,uno,un,einz
+two,dos,deux,zwei
+three,tres,trois,drei
+```
+### create models
+```bash
+SELECT FR 
+FROM DATA_SCIENCE.ABC1234_RAW.NUMBERS;
+SELECT FR 
+FROM DATA_SCIENCE.ABC1234_RAW.NUMBERS
+```
+### schema updates
+```bash
+
+version: 2
+
+models:
+  - name: my_first_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: my_second_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+  - name: french 
+    description: "test french table"
+    columns:
+      - name: FR 
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              values:  ['un', 'deux', 'trois']
+  - name: enfr
+    description: "insure all values in en column are also in ende"
+    columns:
+      - name: EN
+        data_tests:
+          - relationships:
+              to: ref('ende')
+              field: EN
+```
 ### Project Structure
 Tree command to check structure
 ```bash
@@ -712,28 +771,60 @@ tree . -I env
 │   │   ├── macros
 │   │   ├── models
 │   │   │   └── example
+│   │   │       ├── ende.sql
+│   │   │       ├── enfr.sql
+│   │   │       ├── french.sql
 │   │   │       ├── my_first_dbt_model.sql
 │   │   │       ├── my_second_dbt_model.sql
 │   │   │       └── schema.yml
 │   │   ├── seeds
+│   │   │   └── numbers.csv
 │   │   ├── snapshots
 │   │   ├── target
 │   │   │   ├── compiled
 │   │   │   │   └── gainers
 │   │   │   │       └── models
 │   │   │   │           └── example
+│   │   │   │               ├── ende.sql
+│   │   │   │               ├── enfr.sql
+│   │   │   │               ├── french.sql
 │   │   │   │               ├── my_first_dbt_model.sql
-│   │   │   │               └── my_second_dbt_model.sql
+│   │   │   │               ├── my_second_dbt_model.sql
+│   │   │   │               └── schema.yml
+│   │   │   │                   ├── accepted_values_french_FR__un__deux__troi.sql
+│   │   │   │                   ├── accepted_values_french_FR__un__deux__trois.sql
+│   │   │   │                   ├── not_null_french_FR.sql
+│   │   │   │                   ├── not_null_my_first_dbt_model_id.sql
+│   │   │   │                   ├── not_null_my_second_dbt_model_id.sql
+│   │   │   │                   ├── relationships_enfr_EN__EN__ref_ende_.sql
+│   │   │   │                   ├── unique_french_FR.sql
+│   │   │   │                   ├── unique_my_first_dbt_model_id.sql
+│   │   │   │                   └── unique_my_second_dbt_model_id.sql
 │   │   │   ├── graph.gpickle
 │   │   │   ├── graph_summary.json
 │   │   │   ├── manifest.json
 │   │   │   ├── partial_parse.msgpack
 │   │   │   ├── run
 │   │   │   │   └── gainers
-│   │   │   │       └── models
-│   │   │   │           └── example
-│   │   │   │               ├── my_first_dbt_model.sql
-│   │   │   │               └── my_second_dbt_model.sql
+│   │   │   │       ├── models
+│   │   │   │       │   └── example
+│   │   │   │       │       ├── ende.sql
+│   │   │   │       │       ├── enfr.sql
+│   │   │   │       │       ├── french.sql
+│   │   │   │       │       ├── my_first_dbt_model.sql
+│   │   │   │       │       ├── my_second_dbt_model.sql
+│   │   │   │       │       └── schema.yml
+│   │   │   │       │           ├── accepted_values_french_FR__un__deux__troi.sql
+│   │   │   │       │           ├── accepted_values_french_FR__un__deux__trois.sql
+│   │   │   │       │           ├── not_null_french_FR.sql
+│   │   │   │       │           ├── not_null_my_first_dbt_model_id.sql
+│   │   │   │       │           ├── not_null_my_second_dbt_model_id.sql
+│   │   │   │       │           ├── relationships_enfr_EN__EN__ref_ende_.sql
+│   │   │   │       │           ├── unique_french_FR.sql
+│   │   │   │       │           ├── unique_my_first_dbt_model_id.sql
+│   │   │   │       │           └── unique_my_second_dbt_model_id.sql
+│   │   │   │       └── seeds
+│   │   │   │           └── numbers.csv
 │   │   │   ├── run_results.json
 │   │   │   └── semantic_manifest.json
 │   │   └── tests
@@ -776,7 +867,7 @@ tree . -I env
     ├── README.md
     └── aws_login.md
 
-34 directories, 146 files
+37 directories, 175 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
