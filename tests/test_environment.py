@@ -10,5 +10,5 @@ def test_operating_system():
 def test_python_version():
     """Test that Python version is either 3.10 or 3.11"""
     version = sys.version_info
-    assert version.major == 3 and version.minor in [10, 11, 12], \
-        f"Python version {version.major}.{version.minor} not in [3.10, 3.11, 3.12]"
+    assert version.major == 3 and version.minor in [10, 11, 12, 13], \
+        f"Python version {version.major}.{version.minor} not in [3.10, 3.11, 3.12, 3.13]"
