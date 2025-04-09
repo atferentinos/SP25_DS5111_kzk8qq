@@ -402,7 +402,7 @@ Data_Collection
 mkdir Data_Collection_LAB_07
 ```
 
-### add timing for CRON
+### Creating Crontab Timing
 This way gainers will run throughout the day
 ```bash
 crontab -e
@@ -419,14 +419,240 @@ crontab -e
 01 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source yahoo --output-dir "Data_Collection_LAB_07"
 01 16 * * 1-5 cd /home/ubuntu/SP25_DS5111_kzk8qq && . /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/activate && /home/ubuntu/SP25_DS5111_kzk8qq/env/bin/python3 get_gainer.py --source wsj --output-dir "Data_Collection_LAB_07"
 ```
-****
 
+### writing Entity Relationship Diagram(ERD) in mermaidjs
+code for the ERD diagram made in mermaidjs
+```bash
+   erDiagram
+    RAW_DAILY_GAINERS ||--o{ CONSOLIDATED_GAINERS : transforms_to
+    RAW_DAILY_GAINERS {
+        string symbol
+        string name
+        float price
+        float change
+        float change_percent
+        float volume
+        float avg_vol_3m
+        string market_cap
+        float pe_ratio
+        float wk52_change
+        string wk52_range
+        string source
+        datetime timestamp
+        string file_name
+    }
+    
+    CONSOLIDATED_GAINERS ||--o{ SYMBOL_FREQUENCY : aggregates_to
+    CONSOLIDATED_GAINERS ||--o{ PRICE_DISTRIBUTION : aggregates_to
+    CONSOLIDATED_GAINERS ||--o{ VOLUME_DISTRIBUTION : aggregates_to
+    CONSOLIDATED_GAINERS ||--o{ DAY_OF_WEEK_STATS : aggregates_to
+    CONSOLIDATED_GAINERS {
+        string symbol
+        string name
+        float price
+        float change
+        float change_percent
+        float volume
+        float avg_vol_3m
+        string market_cap
+        float pe_ratio
+        float wk52_change
+        string wk52_range
+        string source
+        date date
+        time time
+        string day_of_week
+    }
+    
+    SYMBOL_FREQUENCY {
+        string symbol
+        string name
+        int appearance_count
+        date first_appearance
+        date last_appearance
+        float avg_price
+        float avg_change_percent
+        int max_streak_length
+        int sources_count
+    }
+    
+    PRICE_DISTRIBUTION {
+        string price_range
+        int symbol_count
+        int unique_symbols
+        float avg_change_percent
+        float median_change_percent
+        float avg_volume
+    }
+    
+    VOLUME_DISTRIBUTION {
+        string volume_range
+        int symbol_count
+        int unique_symbols
+        float avg_change_percent
+        float avg_price
+    }
+    
+    DAY_OF_WEEK_STATS {
+        string day_of_week
+        int gainer_count
+        int unique_symbols
+        float avg_change_percent
+        float avg_volume
+    }
+    
+    SYMBOL_FREQUENCY ||--o{ RECURRING_SYMBOLS_ANALYSIS : feeds_into
+    RECURRING_SYMBOLS_ANALYSIS {
+        string symbol
+        string name
+        int appearance_count
+        string sources
+        float avg_days_between_appearances
+        float avg_price_change_between_appearances
+        float appearance_frequency
+        float avg_volume
+        string gainer_pattern
+        string performance_category
+    }
+    
+    PRICE_DISTRIBUTION ||--o{ PRICE_RANGE_ANALYSIS : feeds_into
+    PRICE_RANGE_ANALYSIS {
+        string price_range
+        int symbol_count
+        int recurring_symbols_count
+        float recurring_symbol_percentage
+        float avg_appearances
+        float high_performers_percentage
+        float avg_volume
+        float weighted_success_score
+    }
+    
+    VOLUME_DISTRIBUTION ||--o{ VOLUME_PATTERN_ANALYSIS : feeds_into
+    VOLUME_PATTERN_ANALYSIS {
+        string volume_range
+        float avg_change_percent
+        float price_correlation
+        float liquidity_score
+        string trading_recommendation
+    }
+    
+    DAY_OF_WEEK_STATS ||--o{ TRADING_PATTERN_ANALYSIS : feeds_into
+    TRADING_PATTERN_ANALYSIS {
+        string day_of_week
+        float avg_gainers_per_day
+        float avg_change_percent
+        float repeat_percentage
+        string volume_trend
+        string trading_strategy
+    }"
+```
+****
+### Added the Diagram IMAGE to Root Directory 
+Added Image so I can refer to later
+```bash
+#added file through github interactions
+#mermaid-diagram-2025-03-23-150300.png
+```
+### Filed in ERD.md in root directory with Report Outline
+Added Image so I can refer to later
+```bash
+nano ERD.md
+#add the report and code for ERD
+```
+### Set up Snowflake login in with professor
+ensured had snowflake access 
+add installs to requirements folder
+```bash
+vim requirements.txt
+dbt-core
+dbt-snowflake
+```
+### make project directory
+```bash
+mkdir projects
+```
+### set up DBT initialization
+```bash
+dbt init project
+Enter a Number: 1 # should be the only option
+account: rja95216
+user: your uva email address
+password: DS5111<uvaid>
+role: DS5111_DBT
+warehouse: COMPUTE_WH
+database: DATA_SCIENCE
+schema: <uvaid>
+threads: 1
+```
+### test dbt debug for connection
+```bash
+#navigate to gainers folders in projects
+dbt debug
+```
+### test with snowflake and dbt
+```bash
+#create numbers.csv
+nano numbers.csv
+#paste
+en,sp,fr,de
+one,uno,un,einz
+two,dos,deux,zwei
+three,tres,trois,drei
+```
+### create models
+```bash
+SELECT FR 
+FROM DATA_SCIENCE.ABC1234_RAW.NUMBERS;
+SELECT FR 
+FROM DATA_SCIENCE.ABC1234_RAW.NUMBERS
+```
+### schema updates
+```bash
+
+version: 2
+
+models:
+  - name: my_first_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: my_second_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+  - name: french 
+    description: "test french table"
+    columns:
+      - name: FR 
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              values:  ['un', 'deux', 'trois']
+  - name: enfr
+    description: "insure all values in en column are also in ende"
+    columns:
+      - name: EN
+        data_tests:
+          - relationships:
+              to: ref('ende')
+              field: EN
+```
 ### Project Structure
 Tree command to check structure
 ```bash
 tree . -I env
 ```
-
 ```bash
 .
 ├── Data_Collection_LAB_07
@@ -501,6 +727,7 @@ tree . -I env
 │   ├── ygainers_norm_20250318_123002.csv
 │   ├── ygainers_norm_20250318_160103.csv
 │   └── ygainers_norm_20250318_163002.csv
+├── ERD.md
 ├── LICENSE
 ├── Makefile
 ├── README.md
@@ -530,7 +757,79 @@ tree . -I env
 │   └── ygainers_norm_20250306_010104.csv
 ├── get_gainer.py
 ├── init.sh
+├── logs
+│   └── dbt.log
+├── mermaid-diagram-2025-03-23-150300.png
 ├── mock_gainers.csv
+├── projects
+│   ├── gainers
+│   │   ├── README.md
+│   │   ├── analyses
+│   │   ├── dbt_project.yml
+│   │   ├── logs
+│   │   │   └── dbt.log
+│   │   ├── macros
+│   │   ├── models
+│   │   │   └── example
+│   │   │       ├── ende.sql
+│   │   │       ├── enfr.sql
+│   │   │       ├── french.sql
+│   │   │       ├── my_first_dbt_model.sql
+│   │   │       ├── my_second_dbt_model.sql
+│   │   │       └── schema.yml
+│   │   ├── seeds
+│   │   │   └── numbers.csv
+│   │   ├── snapshots
+│   │   ├── target
+│   │   │   ├── compiled
+│   │   │   │   └── gainers
+│   │   │   │       └── models
+│   │   │   │           └── example
+│   │   │   │               ├── ende.sql
+│   │   │   │               ├── enfr.sql
+│   │   │   │               ├── french.sql
+│   │   │   │               ├── my_first_dbt_model.sql
+│   │   │   │               ├── my_second_dbt_model.sql
+│   │   │   │               └── schema.yml
+│   │   │   │                   ├── accepted_values_french_FR__un__deux__troi.sql
+│   │   │   │                   ├── accepted_values_french_FR__un__deux__trois.sql
+│   │   │   │                   ├── not_null_french_FR.sql
+│   │   │   │                   ├── not_null_my_first_dbt_model_id.sql
+│   │   │   │                   ├── not_null_my_second_dbt_model_id.sql
+│   │   │   │                   ├── relationships_enfr_EN__EN__ref_ende_.sql
+│   │   │   │                   ├── unique_french_FR.sql
+│   │   │   │                   ├── unique_my_first_dbt_model_id.sql
+│   │   │   │                   └── unique_my_second_dbt_model_id.sql
+│   │   │   ├── graph.gpickle
+│   │   │   ├── graph_summary.json
+│   │   │   ├── manifest.json
+│   │   │   ├── partial_parse.msgpack
+│   │   │   ├── run
+│   │   │   │   └── gainers
+│   │   │   │       ├── models
+│   │   │   │       │   └── example
+│   │   │   │       │       ├── ende.sql
+│   │   │   │       │       ├── enfr.sql
+│   │   │   │       │       ├── french.sql
+│   │   │   │       │       ├── my_first_dbt_model.sql
+│   │   │   │       │       ├── my_second_dbt_model.sql
+│   │   │   │       │       └── schema.yml
+│   │   │   │       │           ├── accepted_values_french_FR__un__deux__troi.sql
+│   │   │   │       │           ├── accepted_values_french_FR__un__deux__trois.sql
+│   │   │   │       │           ├── not_null_french_FR.sql
+│   │   │   │       │           ├── not_null_my_first_dbt_model_id.sql
+│   │   │   │       │           ├── not_null_my_second_dbt_model_id.sql
+│   │   │   │       │           ├── relationships_enfr_EN__EN__ref_ende_.sql
+│   │   │   │       │           ├── unique_french_FR.sql
+│   │   │   │       │           ├── unique_my_first_dbt_model_id.sql
+│   │   │   │       │           └── unique_my_second_dbt_model_id.sql
+│   │   │   │       └── seeds
+│   │   │   │           └── numbers.csv
+│   │   │   ├── run_results.json
+│   │   │   └── semantic_manifest.json
+│   │   └── tests
+│   └── logs
+│       └── dbt.log
 ├── pylintrc
 ├── requirements.txt
 ├── sample_data
@@ -568,42 +867,53 @@ tree . -I env
     ├── README.md
     └── aws_login.md
 
-13 directories, 126 files
+37 directories, 175 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
+# Updated Key Directories
 
-### Key Directories
-* Root directory: Contains essential setup files
-* `bin/`: Contains Python scripts for data processing
- * `normalize_csv.py`: Script for normalizing CSV data
- * `gainers/`: Package directory for gainer data collection
-   * `__init__.py`: Package initialization file
-   * `base.py`: Base class for gainer implementations
-   * `factory.py`: Factory pattern implementation for gainer selection
-   * `mock.py`: Mock implementation for testing
-   * `wsj.py`: Wall Street Journal data scraper implementation
-   * `yahoo.py`: Yahoo Finance data scraper implementation
-* `init.sh`: VM initialization script
-* `Makefile`: Manages Python environment and data collection
-* `requirements.txt`: Python dependencies
-* `scripts/`: Utility scripts
- * `install_chrome.sh`: Chrome headless browser installer
- * `00_00_setup_script_for_git_github.md`: Git setup guide
- * `00_01_setup_git_global_creds.sh`: Git credentials setup script
-* `sample_data/`: Example datasets
- * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
- * `ygainers.html`: HTML output from running Makefile
- * `ygainers.csv`: CSV output from running Makefile
- * `ygainers_norm.csv`: Normalized version of the CSV data
-* `storage/`: Contains data files moved from the root directory
- * `test.txt`: Test file
- * `wsj_gainers.csv`, `wsj_gainers.html`, `wsj_gainers_norm.csv`: Wall Street Journal data files
- * `wsjgainers.csv`, `wsjgainers.html`, `wsjgainers_norm.csv`: WSJ data files in alternate format
- * `ygainers.csv`, `ygainers.html`, `ygainers_norm.csv`: Yahoo Finance data files
-* `tests/`: Contains test files for the project
- * `test_Module_5.py`: Tests for Module 5 functionality
- * `test_environment.py`: Tests for environment setup
- * `test_gainers.py`: Tests for gainers functionality
+* **Root directory**: Contains essential setup files (`LICENSE`, `README.md`, `Makefile`, `requirements.txt`, `init.sh`, `get_gainer.py`, `pylintrc`, `ERD.md`)
+* **`bin/`**: Contains Python scripts for data processing
+  * `normalize_csv.py`: Script for normalizing CSV data
+  * `gainers/`: Package directory for gainer data collection
+    * `__init__.py`: Package initialization file
+    * `base.py`: Base class for gainer implementations
+    * `factory.py`: Factory pattern implementation for gainer selection
+    * `mock.py`: Mock implementation for testing
+    * `wsj.py`: Wall Street Journal data scraper implementation
+    * `yahoo.py`: Yahoo Finance data scraper implementation
+* **`Data_Collection_LAB_07/`**: Contains extensive collection of CSV files
+  * Multiple `wsjgainers_norm_*.csv` files from March 7-18, 2025
+  * Multiple `ygainers_norm_*.csv` files from March 6-18, 2025
+* **`data/`**: Contains baseline normalized CSV files
+  * `wsj_gainers_norm_*.csv`: Initial Wall Street Journal data
+  * `wsjgainers_norm_*.csv`: Alternative format Wall Street Journal data
+  * `ygainers_norm_*.csv`: Initial Yahoo Finance data
+* **`logs/`**: Contains log files
+  * `dbt.log`: DBT logging information
+* **`projects/`**: Contains DBT project files
+  * `gainers/`: DBT project directory
+    * Standard DBT structure with models, macros, tests, etc.
+    * Contains compiled SQL models in the target directory
+  * `logs/`: Additional log directory for DBT
+* **`sample_data/`**: Example datasets
+  * `ygainers_sample.csv`: Sample of scraped Yahoo Finance gainers data
+  * `ygainers.html`: HTML output from running Makefile
+  * `ygainers.csv`: CSV output from running Makefile
+  * `ygainers_norm.csv`: Normalized version of the CSV data
+* **`scripts/`**: Utility scripts
+  * `install_chrome.sh`: Chrome headless browser installer
+  * `00_00_setup_script_for_git_github.md`: Git setup guide
+  * `00_01_setup_git_global_creds.sh`: Git credentials setup script
+* **`storage/`**: Contains data files moved from the root directory
+  * Various `.csv` and `.html` files for both WSJ and Yahoo Finance data
+* **`tests/`**: Contains test files for the project
+  * `test_Module_5.py`: Tests for Module 5 functionality
+  * `test_environment.py`: Tests for environment setup
+  * `test_gainers.py`: Tests for gainers functionality
+* **`text/`**: Docs
+  * `README.md`: Additional documentation
+  * `aws_login.md`: AWS login information
 
-[![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
+[![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg?branch=LAB-08_erd_diagram)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
