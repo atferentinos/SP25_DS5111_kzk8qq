@@ -916,4 +916,4 @@ tree . -I env
   * `README.md`: Additional documentation
   * `aws_login.md`: AWS login information
 
-![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg)
+[![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg?branch=LAB-08_erd_diagram)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
