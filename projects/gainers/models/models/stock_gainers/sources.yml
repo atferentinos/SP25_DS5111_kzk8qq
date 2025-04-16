@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    database: DATA_SCIENCE
+    schema: "kzk8qq_RAW"  # Replace kzk8qq with your actual uvaid
+    tables:
+      - name: wsjgainers_norm
+        identifier: "wsjgainers_norm_%"
+      - name: ygainers_norm
+        identifier: "ygainers_norm_%"
