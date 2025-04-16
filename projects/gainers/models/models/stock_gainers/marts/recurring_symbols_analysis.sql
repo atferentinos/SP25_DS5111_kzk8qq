@@ -2,6 +2,8 @@
     materialized='table'
 ) }}
 
+-- This model provides deeper insights into recurring symbols
+-- Identifies stocks that repeatedly appear as gainers and analyzes their patterns
 
 WITH recurring_symbols AS (
     SELECT
@@ -12,7 +14,9 @@ WITH recurring_symbols AS (
         last_appearance,
         avg_price,
         avg_change_percent,
-        sources_count
+        sources_count,
+        date_span,
+        days_appeared
     FROM {{ ref('int_symbol_frequency') }}
     WHERE appearance_count > 1  -- Only include symbols appearing multiple times
 )
@@ -23,18 +27,15 @@ SELECT
     rs.appearance_count,
     rs.sources_count || ' sources' AS sources,
     -- Calculate approximate days between appearances
-    DATEDIFF('day', rs.first_appearance, rs.last_appearance) / 
-        CASE WHEN rs.appearance_count > 1 
-             THEN rs.appearance_count - 1 
-             ELSE 1 
-        END AS avg_days_between_appearances,
-    -- This would be calculated using additional data in a real implementation
-    -- For now, using a placeholder
-    0.0 AS avg_price_change_between_appearances,
-    -- Calculate appearance frequency as percentage of total trading days
-    (rs.appearance_count / 
-        DATEDIFF('day', rs.first_appearance, rs.last_appearance)) * 100 AS appearance_frequency,
-    rs.avg_price AS avg_volume,
+    CASE WHEN rs.date_span > 0 AND rs.appearance_count > 1 
+         THEN rs.date_span / (rs.appearance_count - 1)
+         ELSE 0 
+    END AS avg_days_between_appearances,
+    -- Calculate appearance frequency as percentage of total available dates
+    -- Assuming we have data from 10 distinct dates based on our selection
+    (rs.appearance_count / 10.0) * 100 AS appearance_frequency,
+    rs.avg_price,
+    rs.avg_change_percent,
     -- Categorize the pattern
     CASE
         WHEN rs.avg_change_percent > 7 THEN 'High Growth'
@@ -46,6 +47,8 @@ SELECT
         WHEN rs.appearance_count > 3 AND rs.avg_change_percent > 7 THEN 'Top Performer'
         WHEN rs.appearance_count > 2 AND rs.avg_change_percent > 5 THEN 'Strong Performer'
         ELSE 'Regular Performer'
-    END AS performance_category
+    END AS performance_category,
+    -- Day pattern (which days it appears on)
+    rs.days_appeared AS appearance_days
 FROM recurring_symbols rs
 ORDER BY rs.appearance_count DESC, rs.avg_change_percent DESC

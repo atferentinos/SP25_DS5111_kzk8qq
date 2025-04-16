@@ -2,7 +2,8 @@
     materialized='table'
 ) }}
 
-
+-- This model tracks frequency of symbols appearing in gainer lists
+-- It addresses the key question: "Are there symbols that repeat? Is there a pattern?"
 
 SELECT
     symbol,
@@ -12,10 +13,10 @@ SELECT
     MAX(date) AS last_appearance,
     AVG(price) AS avg_price,
     AVG(change_percent) AS avg_change_percent,
-    -- This is a placeholder for streak calculation
-    -- In a real implementation, we would use window functions to calculate actual streaks
-    1 AS max_streak_length, 
-    COUNT(DISTINCT source) AS sources_count
-FROM {{ ref('stg_consolidated_gainers') }}
+    COUNT(DISTINCT source) AS sources_count,
+    -- Number of consecutive days (simplified approach)
+    DATEDIFF('day', MIN(date), MAX(date)) AS date_span,
+    ARRAY_AGG(DISTINCT day_of_week) WITHIN GROUP (ORDER BY day_of_week) AS days_appeared
+FROM {{ ref('gainers_consolidated') }}
 GROUP BY symbol
 ORDER BY appearance_count DESC, avg_change_percent DESC

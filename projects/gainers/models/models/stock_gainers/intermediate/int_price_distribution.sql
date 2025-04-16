@@ -19,7 +19,7 @@ WITH price_ranges AS (
             WHEN price BETWEEN 50 AND 100 THEN '$50-$100'
             WHEN price > 100 THEN 'Over $100'
         END AS price_range
-    FROM {{ ref('stg_consolidated_gainers') }}
+    FROM {{ ref('gainers_consolidated') }}
 )
 
 SELECT

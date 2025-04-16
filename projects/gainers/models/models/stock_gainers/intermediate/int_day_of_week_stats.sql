@@ -11,7 +11,7 @@ SELECT
     MAX(change_percent) AS max_change_percent,
     MIN(change_percent) AS min_change_percent,
     COUNT(DISTINCT date) AS distinct_dates
-FROM {{ ref('stg_consolidated_gainers') }}
+FROM {{ ref('gainers_consolidated') }}
 GROUP BY day_of_week
 ORDER BY 
     CASE 
