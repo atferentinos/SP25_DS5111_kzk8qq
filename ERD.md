@@ -6,75 +6,92 @@ This Outline Report represents a data model for analyzing daily stock gainer lis
 ## ERD Diagram Code Created in mermaidjs.live
 
 ```
-    erDiagram
-CONSOLIDATED_GAINERS ||--o{ SYMBOL_FREQUENCY : aggregates_to
-CONSOLIDATED_GAINERS ||--o{ PRICE_DISTRIBUTION : aggregates_to
-CONSOLIDATED_GAINERS ||--o{ DAY_OF_WEEK_STATS : aggregates_to
-CONSOLIDATED_GAINERS {
-    string symbol
-    string name
-    float price
-    float change
-    float change_percent
-    string source
-    date date
-    time time
-    string day_of_week
-}
-SYMBOL_FREQUENCY {
-    string symbol
-    string name
-    int appearance_count
-    date first_appearance
-    date last_appearance
-    float avg_price
-    float avg_change_percent
-    int max_streak_length
-    int sources_count
-}
-PRICE_DISTRIBUTION {
-    string price_range
-    int symbol_count
-    int unique_symbols
-    float avg_change_percent
-    float median_change_percent
-}
-DAY_OF_WEEK_STATS {
-    string day_of_week
-    int gainer_count
-    int unique_symbols
-    float avg_change_percent
-}
-SYMBOL_FREQUENCY ||--o{ RECURRING_SYMBOLS_ANALYSIS : feeds_into
-RECURRING_SYMBOLS_ANALYSIS {
-    string symbol
-    string name
-    int appearance_count
-    string sources
-    float avg_days_between_appearances
-    float avg_price_change_between_appearances
-    float appearance_frequency
-    string gainer_pattern
-    string performance_category
-}
-PRICE_DISTRIBUTION ||--o{ PRICE_RANGE_ANALYSIS : feeds_into
-PRICE_RANGE_ANALYSIS {
-    string price_range
-    int symbol_count
-    int recurring_symbols_count
-    float recurring_symbol_percentage
-    float avg_appearances
-    float high_performers_percentage
-    float weighted_success_score
-}
-DAY_OF_WEEK_STATS ||--o{ TRADING_PATTERN_ANALYSIS : feeds_into
-TRADING_PATTERN_ANALYSIS {
-    string day_of_week
-    float avg_gainers_per_day
-    float avg_change_percent
-    float repeat_percentage
-    string trading_strategy
-}
+   erDiagram
+    WSJGAINERS_NORM ||--o{ GAINERS_CONSOLIDATED : "combined into"
+    YGAINERS_NORM ||--o{ GAINERS_CONSOLIDATED : "combined into"
+    
+    WSJGAINERS_NORM {
+        string SYMBOL
+        float PRICE
+        float PRICE_CHANGE
+        float PRICE_PERCENT_CHANGE
+    }
+    
+    YGAINERS_NORM {
+        string SYMBOL
+        float PRICE
+        float PRICE_CHANGE
+        float PRICE_PERCENT_CHANGE
+    }
+    
+    GAINERS_CONSOLIDATED ||--o{ SYMBOL_FREQUENCY_ANALYSIS : "analyzed for frequency"
+    GAINERS_CONSOLIDATED ||--o{ PRICE_DISTRIBUTION_ANALYSIS : "analyzed for distribution"
+    GAINERS_CONSOLIDATED ||--o{ DAY_OF_WEEK_ANALYSIS : "analyzed by day"
+    GAINERS_CONSOLIDATED ||--o{ SOURCE_COMPARISON_ANALYSIS : "compared by source"
+    GAINERS_CONSOLIDATED ||--o{ RECURRING_SYMBOLS_ANALYSIS : "analyzed for recurrence"
+    
+    GAINERS_CONSOLIDATED {
+        string SYMBOL
+        float PRICE
+        float PRICE_CHANGE
+        float PRICE_PERCENT_CHANGE
+        date DATE
+        string SOURCE
+    }
+    
+    SYMBOL_FREQUENCY_ANALYSIS {
+        string SYMBOL
+        int APPEARANCE_COUNT
+        date FIRST_APPEARANCE
+        date LAST_APPEARANCE
+        float AVG_PERCENT_CHANGE
+    }
+    
+    PRICE_DISTRIBUTION_ANALYSIS {
+        string PRICE_RANGE
+        int COUNT
+        float AVG_PERCENT_CHANGE
+        date ANALYSIS_DATE
+    }
+    
+    DAY_OF_WEEK_ANALYSIS {
+        string DAY_OF_WEEK
+        int UNIQUE_SYMBOLS
+        float AVG_PERCENT_CHANGE
+        int TOTAL_GAINERS
+    }
+    
+    SOURCE_COMPARISON_ANALYSIS {
+        string SOURCE
+        int GAINER_COUNT
+        int UNIQUE_SYMBOLS
+        float AVG_GAIN
+        float MIN_GAIN
+        float MAX_GAIN
+    }
+    
+    RECURRING_SYMBOLS_ANALYSIS {
+        string SYMBOL
+        int APPEARANCE_COUNT
+        float AVG_PERCENT_CHANGE
+        date FIRST_APPEARANCE
+        date LAST_APPEARANCE
+    }
+    
+    SYMBOL_FREQUENCY_ANALYSIS ||--o{ COMPREHENSIVE_ANALYSIS : "contributes to"
+    RECURRING_SYMBOLS_ANALYSIS ||--o{ COMPREHENSIVE_ANALYSIS : "enhances"
+    GAINERS_CONSOLIDATED ||--o{ COMPREHENSIVE_ANALYSIS : "provides details for"
+    
+    COMPREHENSIVE_ANALYSIS {
+        string SYMBOL
+        int APPEARANCE_COUNT
+        float AVG_PERCENT_CHANGE
+        string PRICE_CATEGORY
+        int DAYS_BETWEEN_APPEARANCES
+        int SOURCES_COUNT
+        boolean RECURRING_FLAG
+        string DAYS_OF_WEEK
+    }
 
 ```
 ## ERD Design Explanation:
