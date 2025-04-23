@@ -648,6 +648,11 @@ models:
               to: ref('ende')
               field: EN
 ```
+### Final Report
+Place for Final Report for class
+```bash
+#DS5111_Final_Report
+```
 ### Project Structure
 Tree command to check structure
 ```bash
@@ -914,6 +919,7 @@ tree . -I env
   * `test_gainers.py`: Tests for gainers functionality
 * **`text/`**: Docs
   * `README.md`: Additional documentation
+  * `DS5111_Final_Report`: Final Report
   * `aws_login.md`: AWS login information
 
 [![Feature Validation](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml/badge.svg?branch=LAB-08_erd_diagram)](https://github.com/atferentinos/SP25_DS5111_kzk8qq/actions/workflows/validations.yml)
