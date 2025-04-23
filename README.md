@@ -660,6 +660,7 @@ tree . -I env
 ```
 ```bash
 .
+├── DS5111_Final_Report.pdf
 ├── Data_Collection_LAB_07
 │   ├── wsjgainers_norm_20250307_165202.csv
 │   ├── wsjgainers_norm_20250307_165402.csv
@@ -738,16 +739,9 @@ tree . -I env
 ├── README.md
 ├── bin
 │   ├── __pycache__
-│   │   └── normalize_csv.cpython-312.pyc
 │   ├── gainers
 │   │   ├── __init__.py
 │   │   ├── __pycache__
-│   │   │   ├── __init__.cpython-312.pyc
-│   │   │   ├── base.cpython-312.pyc
-│   │   │   ├── factory.cpython-312.pyc
-│   │   │   ├── mock.cpython-312.pyc
-│   │   │   ├── wsj.cpython-312.pyc
-│   │   │   └── yahoo.cpython-312.pyc
 │   │   ├── base.py
 │   │   ├── factory.py
 │   │   ├── mock.py
@@ -764,7 +758,7 @@ tree . -I env
 ├── init.sh
 ├── logs
 │   └── dbt.log
-├── mermaid-diagram-2025-03-23-150300.png
+├── mermaid-diagram-2025-04-17-090304.png
 ├── mock_gainers.csv
 ├── projects
 │   ├── gainers
@@ -775,36 +769,215 @@ tree . -I env
 │   │   │   └── dbt.log
 │   │   ├── macros
 │   │   ├── models
-│   │   │   └── example
-│   │   │       ├── ende.sql
-│   │   │       ├── enfr.sql
-│   │   │       ├── french.sql
-│   │   │       ├── my_first_dbt_model.sql
-│   │   │       ├── my_second_dbt_model.sql
-│   │   │       └── schema.yml
+│   │   │   ├── example
+│   │   │   │   ├── ende.sql
+│   │   │   │   ├── enfr.sql
+│   │   │   │   ├── french.sql
+│   │   │   │   ├── my_first_dbt_model.sql
+│   │   │   │   ├── my_second_dbt_model.sql
+│   │   │   │   └── schema.yml
+│   │   │   └── models
+│   │   │       └── stock_gainers
+│   │   │           ├── gainers_consolidated.sql
+│   │   │           ├── intermediate
+│   │   │           │   ├── int_consolidated_gainers.sql
+│   │   │           │   ├── int_daily_combined.sql
+│   │   │           │   ├── int_day_of_week_stats.sql
+│   │   │           │   ├── int_price_distribution.sql
+│   │   │           │   ├── int_symbol_frequency.sql
+│   │   │           │   └── int_symbol_performance.sql
+│   │   │           ├── marts
+│   │   │           │   ├── final_analysis.sql
+│   │   │           │   ├── price_range_analysis.sql
+│   │   │           │   ├── recurring_symbols_analysis.sql
+│   │   │           │   └── trading_pattern_analysis.sql
+│   │   │           ├── simplest_test.sql
+│   │   │           └── sources.yml
+│   │   ├── normalize_all.py
 │   │   ├── seeds
-│   │   │   └── numbers.csv
+│   │   │   ├── numbers.numbers
+│   │   │   ├── wsjgainers_norm_20250307_165202.numbers
+│   │   │   ├── wsjgainers_norm_20250307_165202_norm.csv
+│   │   │   ├── wsjgainers_norm_20250307_165402.csv
+│   │   │   ├── wsjgainers_norm_20250307_165602.numbers
+│   │   │   ├── wsjgainers_norm_20250307_165602_norm.csv
+│   │   │   ├── wsjgainers_norm_20250307_185502.numbers
+│   │   │   ├── wsjgainers_norm_20250307_185502_norm.csv
+│   │   │   ├── wsjgainers_norm_20250310_154613.numbers
+│   │   │   ├── wsjgainers_norm_20250310_154613_norm.csv
+│   │   │   ├── wsjgainers_norm_20250310_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250310_163102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250310_173002.numbers
+│   │   │   ├── wsjgainers_norm_20250310_173002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250310_191246.numbers
+│   │   │   ├── wsjgainers_norm_20250310_191246_norm.csv
+│   │   │   ├── wsjgainers_norm_20250310_200420.numbers
+│   │   │   ├── wsjgainers_norm_20250310_200420_norm.csv
+│   │   │   ├── wsjgainers_norm_20250311_093102.numbers
+│   │   │   ├── wsjgainers_norm_20250311_093102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250311_123002.numbers
+│   │   │   ├── wsjgainers_norm_20250311_123002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250311_160103.numbers
+│   │   │   ├── wsjgainers_norm_20250311_160103_norm.csv
+│   │   │   ├── wsjgainers_norm_20250311_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250311_163102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250312_093102.numbers
+│   │   │   ├── wsjgainers_norm_20250312_093102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250312_123002.numbers
+│   │   │   ├── wsjgainers_norm_20250312_123002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250312_160102.numbers
+│   │   │   ├── wsjgainers_norm_20250312_160102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250312_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250312_163102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250313_093102.numbers
+│   │   │   ├── wsjgainers_norm_20250313_093102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250313_123002.numbers
+│   │   │   ├── wsjgainers_norm_20250313_123002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250313_160102.numbers
+│   │   │   ├── wsjgainers_norm_20250313_160102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250313_163101.numbers
+│   │   │   ├── wsjgainers_norm_20250313_163101_norm.csv
+│   │   │   ├── wsjgainers_norm_20250314_093103.numbers
+│   │   │   ├── wsjgainers_norm_20250314_093103_norm.csv
+│   │   │   ├── wsjgainers_norm_20250314_123002.numbers
+│   │   │   ├── wsjgainers_norm_20250314_123002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250314_160102.numbers
+│   │   │   ├── wsjgainers_norm_20250314_160102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250314_163101.numbers
+│   │   │   ├── wsjgainers_norm_20250314_163101_norm.csv
+│   │   │   ├── wsjgainers_norm_20250315_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250315_163102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250316_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250316_163102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250317_093102.numbers
+│   │   │   ├── wsjgainers_norm_20250317_093102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250317_123002.numbers
+│   │   │   ├── wsjgainers_norm_20250317_123002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250317_160103.numbers
+│   │   │   ├── wsjgainers_norm_20250317_160103_norm.csv
+│   │   │   ├── wsjgainers_norm_20250317_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250317_163102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250318_093102.numbers
+│   │   │   ├── wsjgainers_norm_20250318_093102_norm.csv
+│   │   │   ├── wsjgainers_norm_20250318_123002.numbers
+│   │   │   ├── wsjgainers_norm_20250318_123002_norm.csv
+│   │   │   ├── wsjgainers_norm_20250318_160103.numbers
+│   │   │   ├── wsjgainers_norm_20250318_160103_norm.csv
+│   │   │   ├── wsjgainers_norm_20250318_163102.numbers
+│   │   │   ├── wsjgainers_norm_20250318_163102_norm.csv
+│   │   │   ├── ygainers_norm_20250306_012908.numbers
+│   │   │   ├── ygainers_norm_20250306_012908_norm.csv
+│   │   │   ├── ygainers_norm_20250306_174044.numbers
+│   │   │   ├── ygainers_norm_20250306_174044_norm.csv
+│   │   │   ├── ygainers_norm_20250307_165203.numbers
+│   │   │   ├── ygainers_norm_20250307_165203_norm.csv
+│   │   │   ├── ygainers_norm_20250307_165402.numbers
+│   │   │   ├── ygainers_norm_20250307_165402_norm.csv
+│   │   │   ├── ygainers_norm_20250307_165603.numbers
+│   │   │   ├── ygainers_norm_20250307_165603_norm.csv
+│   │   │   ├── ygainers_norm_20250307_185503.numbers
+│   │   │   ├── ygainers_norm_20250307_185503_norm.csv
+│   │   │   ├── ygainers_norm_20250310_154600.numbers
+│   │   │   ├── ygainers_norm_20250310_154600_norm.csv
+│   │   │   ├── ygainers_norm_20250310_163003.numbers
+│   │   │   ├── ygainers_norm_20250310_163003_norm.csv
+│   │   │   ├── ygainers_norm_20250310_173002.numbers
+│   │   │   ├── ygainers_norm_20250310_173002_norm.csv
+│   │   │   ├── ygainers_norm_20250310_191235.numbers
+│   │   │   ├── ygainers_norm_20250310_191235_norm.csv
+│   │   │   ├── ygainers_norm_20250310_200410.numbers
+│   │   │   ├── ygainers_norm_20250310_200410_norm.csv
+│   │   │   ├── ygainers_norm_20250311_093102.numbers
+│   │   │   ├── ygainers_norm_20250311_093102_norm.csv
+│   │   │   ├── ygainers_norm_20250311_123002.numbers
+│   │   │   ├── ygainers_norm_20250311_123002_norm.csv
+│   │   │   ├── ygainers_norm_20250311_160103.numbers
+│   │   │   ├── ygainers_norm_20250311_160103_norm.csv
+│   │   │   ├── ygainers_norm_20250311_163002.numbers
+│   │   │   ├── ygainers_norm_20250311_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250312_093103.numbers
+│   │   │   ├── ygainers_norm_20250312_093103_norm.csv
+│   │   │   ├── ygainers_norm_20250312_123003.numbers
+│   │   │   ├── ygainers_norm_20250312_123003_norm.csv
+│   │   │   ├── ygainers_norm_20250312_160103.numbers
+│   │   │   ├── ygainers_norm_20250312_160103_norm.csv
+│   │   │   ├── ygainers_norm_20250312_163002.numbers
+│   │   │   ├── ygainers_norm_20250312_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250313_123003.numbers
+│   │   │   ├── ygainers_norm_20250313_123003_norm.csv
+│   │   │   ├── ygainers_norm_20250313_160103.numbers
+│   │   │   ├── ygainers_norm_20250313_160103_norm.csv
+│   │   │   ├── ygainers_norm_20250313_163002.numbers
+│   │   │   ├── ygainers_norm_20250313_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250314_093103.numbers
+│   │   │   ├── ygainers_norm_20250314_093103_norm.csv
+│   │   │   ├── ygainers_norm_20250314_123003.numbers
+│   │   │   ├── ygainers_norm_20250314_123003_norm.csv
+│   │   │   ├── ygainers_norm_20250314_160103.numbers
+│   │   │   ├── ygainers_norm_20250314_160103_norm.csv
+│   │   │   ├── ygainers_norm_20250314_163002.numbers
+│   │   │   ├── ygainers_norm_20250314_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250315_163002.numbers
+│   │   │   ├── ygainers_norm_20250315_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250316_163002.numbers
+│   │   │   ├── ygainers_norm_20250316_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250317_093102.numbers
+│   │   │   ├── ygainers_norm_20250317_093102_norm.csv
+│   │   │   ├── ygainers_norm_20250317_123002.numbers
+│   │   │   ├── ygainers_norm_20250317_123002_norm.csv
+│   │   │   ├── ygainers_norm_20250317_160103.numbers
+│   │   │   ├── ygainers_norm_20250317_160103_norm.csv
+│   │   │   ├── ygainers_norm_20250317_163002.numbers
+│   │   │   ├── ygainers_norm_20250317_163002_norm.csv
+│   │   │   ├── ygainers_norm_20250318_093103.numbers
+│   │   │   ├── ygainers_norm_20250318_093103_norm.csv
+│   │   │   ├── ygainers_norm_20250318_123002.numbers
+│   │   │   ├── ygainers_norm_20250318_123002_norm.csv
+│   │   │   ├── ygainers_norm_20250318_160103.numbers
+│   │   │   ├── ygainers_norm_20250318_160103_norm.csv
+│   │   │   ├── ygainers_norm_20250318_163002.numbers
+│   │   │   └── ygainers_norm_20250318_163002_norm.csv
 │   │   ├── snapshots
 │   │   ├── target
 │   │   │   ├── compiled
 │   │   │   │   └── gainers
 │   │   │   │       └── models
-│   │   │   │           └── example
-│   │   │   │               ├── ende.sql
-│   │   │   │               ├── enfr.sql
-│   │   │   │               ├── french.sql
-│   │   │   │               ├── my_first_dbt_model.sql
-│   │   │   │               ├── my_second_dbt_model.sql
-│   │   │   │               └── schema.yml
-│   │   │   │                   ├── accepted_values_french_FR__un__deux__troi.sql
-│   │   │   │                   ├── accepted_values_french_FR__un__deux__trois.sql
-│   │   │   │                   ├── not_null_french_FR.sql
-│   │   │   │                   ├── not_null_my_first_dbt_model_id.sql
-│   │   │   │                   ├── not_null_my_second_dbt_model_id.sql
-│   │   │   │                   ├── relationships_enfr_EN__EN__ref_ende_.sql
-│   │   │   │                   ├── unique_french_FR.sql
-│   │   │   │                   ├── unique_my_first_dbt_model_id.sql
-│   │   │   │                   └── unique_my_second_dbt_model_id.sql
+│   │   │   │           ├── example
+│   │   │   │           │   ├── ende.sql
+│   │   │   │           │   ├── enfr.sql
+│   │   │   │           │   ├── french.sql
+│   │   │   │           │   ├── my_first_dbt_model.sql
+│   │   │   │           │   ├── my_second_dbt_model.sql
+│   │   │   │           │   └── schema.yml
+│   │   │   │           │       ├── accepted_values_french_FR__un__deux__troi.sql
+│   │   │   │           │       ├── accepted_values_french_FR__un__deux__trois.sql
+│   │   │   │           │       ├── not_null_french_FR.sql
+│   │   │   │           │       ├── not_null_my_first_dbt_model_id.sql
+│   │   │   │           │       ├── not_null_my_second_dbt_model_id.sql
+│   │   │   │           │       ├── relationships_enfr_EN__EN__ref_ende_.sql
+│   │   │   │           │       ├── unique_french_FR.sql
+│   │   │   │           │       ├── unique_my_first_dbt_model_id.sql
+│   │   │   │           │       └── unique_my_second_dbt_model_id.sql
+│   │   │   │           └── models
+│   │   │   │               └── stock_gainers
+│   │   │   │                   ├── gainers_consolidated.sql
+│   │   │   │                   ├── intermediate
+│   │   │   │                   │   ├── int_daily_combined.sql
+│   │   │   │                   │   ├── int_day_of_week_stats.sql
+│   │   │   │                   │   ├── int_price_distribution.sql
+│   │   │   │                   │   ├── int_symbol_frequency.sql
+│   │   │   │                   │   ├── int_symbol_performance.sql
+│   │   │   │                   │   └── int_volume_distribution.sql
+│   │   │   │                   ├── marts
+│   │   │   │                   │   ├── final_analysis.sql
+│   │   │   │                   │   ├── price_range_analysis.sql
+│   │   │   │                   │   ├── recurring_symbols_analysis.sql
+│   │   │   │                   │   ├── trading_pattern_analysis.sql
+│   │   │   │                   │   └── volume_pattern_analysis.sql
+│   │   │   │                   ├── simplest_test.sql
+│   │   │   │                   ├── source_test.sql
+│   │   │   │                   ├── stg_consolidated_gainers.sql
+│   │   │   │                   └── test_gainers.sql
 │   │   │   ├── graph.gpickle
 │   │   │   ├── graph_summary.json
 │   │   │   ├── manifest.json
@@ -812,24 +985,114 @@ tree . -I env
 │   │   │   ├── run
 │   │   │   │   └── gainers
 │   │   │   │       ├── models
-│   │   │   │       │   └── example
-│   │   │   │       │       ├── ende.sql
-│   │   │   │       │       ├── enfr.sql
-│   │   │   │       │       ├── french.sql
-│   │   │   │       │       ├── my_first_dbt_model.sql
-│   │   │   │       │       ├── my_second_dbt_model.sql
-│   │   │   │       │       └── schema.yml
-│   │   │   │       │           ├── accepted_values_french_FR__un__deux__troi.sql
-│   │   │   │       │           ├── accepted_values_french_FR__un__deux__trois.sql
-│   │   │   │       │           ├── not_null_french_FR.sql
-│   │   │   │       │           ├── not_null_my_first_dbt_model_id.sql
-│   │   │   │       │           ├── not_null_my_second_dbt_model_id.sql
-│   │   │   │       │           ├── relationships_enfr_EN__EN__ref_ende_.sql
-│   │   │   │       │           ├── unique_french_FR.sql
-│   │   │   │       │           ├── unique_my_first_dbt_model_id.sql
-│   │   │   │       │           └── unique_my_second_dbt_model_id.sql
+│   │   │   │       │   ├── example
+│   │   │   │       │   │   ├── ende.sql
+│   │   │   │       │   │   ├── enfr.sql
+│   │   │   │       │   │   ├── french.sql
+│   │   │   │       │   │   ├── my_first_dbt_model.sql
+│   │   │   │       │   │   ├── my_second_dbt_model.sql
+│   │   │   │       │   │   └── schema.yml
+│   │   │   │       │   │       ├── accepted_values_french_FR__un__deux__troi.sql
+│   │   │   │       │   │       ├── accepted_values_french_FR__un__deux__trois.sql
+│   │   │   │       │   │       ├── not_null_french_FR.sql
+│   │   │   │       │   │       ├── not_null_my_first_dbt_model_id.sql
+│   │   │   │       │   │       ├── not_null_my_second_dbt_model_id.sql
+│   │   │   │       │   │       ├── relationships_enfr_EN__EN__ref_ende_.sql
+│   │   │   │       │   │       ├── unique_french_FR.sql
+│   │   │   │       │   │       ├── unique_my_first_dbt_model_id.sql
+│   │   │   │       │   │       └── unique_my_second_dbt_model_id.sql
+│   │   │   │       │   └── models
+│   │   │   │       │       └── stock_gainers
+│   │   │   │       │           ├── gainers_consolidated.sql
+│   │   │   │       │           ├── intermediate
+│   │   │   │       │           │   ├── int_daily_combined.sql
+│   │   │   │       │           │   ├── int_day_of_week_stats.sql
+│   │   │   │       │           │   ├── int_price_distribution.sql
+│   │   │   │       │           │   ├── int_symbol_frequency.sql
+│   │   │   │       │           │   ├── int_symbol_performance.sql
+│   │   │   │       │           │   └── int_volume_distribution.sql
+│   │   │   │       │           ├── marts
+│   │   │   │       │           │   ├── final_analysis.sql
+│   │   │   │       │           │   ├── price_range_analysis.sql
+│   │   │   │       │           │   ├── recurring_symbols_analysis.sql
+│   │   │   │       │           │   ├── trading_pattern_analysis.sql
+│   │   │   │       │           │   └── volume_pattern_analysis.sql
+│   │   │   │       │           ├── simplest_test.sql
+│   │   │   │       │           ├── source_test.sql
+│   │   │   │       │           ├── stg_consolidated_gainers.sql
+│   │   │   │       │           └── test_gainers.sql
 │   │   │   │       └── seeds
-│   │   │   │           └── numbers.csv
+│   │   │   │           ├── numbers.csv
+│   │   │   │           ├── wsjgainers_norm_20250307_165202_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250307_165602_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250307_185502_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250310_154613_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250310_163102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250310_173002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250310_191246_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250310_200420_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250311_093102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250311_123002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250311_160103_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250311_163102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250312_093102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250312_123002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250312_160102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250312_163102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250313_093102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250313_123002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250313_160102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250313_163101_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250314_093103_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250314_123002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250314_160102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250314_163101_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250315_163102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250316_163102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250317_093102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250317_123002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250317_160103_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250317_163102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250318_093102_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250318_123002_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250318_160103_norm.csv
+│   │   │   │           ├── wsjgainers_norm_20250318_163102_norm.csv
+│   │   │   │           ├── ygainers_norm_20250306_012908_norm.csv
+│   │   │   │           ├── ygainers_norm_20250306_174044_norm.csv
+│   │   │   │           ├── ygainers_norm_20250307_165203_norm.csv
+│   │   │   │           ├── ygainers_norm_20250307_165402_norm.csv
+│   │   │   │           ├── ygainers_norm_20250307_165603_norm.csv
+│   │   │   │           ├── ygainers_norm_20250307_185503_norm.csv
+│   │   │   │           ├── ygainers_norm_20250310_154600_norm.csv
+│   │   │   │           ├── ygainers_norm_20250310_163003_norm.csv
+│   │   │   │           ├── ygainers_norm_20250310_173002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250310_191235_norm.csv
+│   │   │   │           ├── ygainers_norm_20250310_200410_norm.csv
+│   │   │   │           ├── ygainers_norm_20250311_093102_norm.csv
+│   │   │   │           ├── ygainers_norm_20250311_123002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250311_160103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250311_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250312_093103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250312_123003_norm.csv
+│   │   │   │           ├── ygainers_norm_20250312_160103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250312_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250313_123003_norm.csv
+│   │   │   │           ├── ygainers_norm_20250313_160103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250313_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250314_093103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250314_123003_norm.csv
+│   │   │   │           ├── ygainers_norm_20250314_160103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250314_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250315_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250316_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250317_093102_norm.csv
+│   │   │   │           ├── ygainers_norm_20250317_123002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250317_160103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250317_163002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250318_093103_norm.csv
+│   │   │   │           ├── ygainers_norm_20250318_123002_norm.csv
+│   │   │   │           ├── ygainers_norm_20250318_160103_norm.csv
+│   │   │   │           └── ygainers_norm_20250318_163002_norm.csv
 │   │   │   ├── run_results.json
 │   │   │   └── semantic_manifest.json
 │   │   └── tests
@@ -859,12 +1122,6 @@ tree . -I env
 │   └── ygainers_norm.csv
 ├── tests
 │   ├── __pycache__
-│   │   ├── test_Module_5.cpython-312-pytest-7.4.4.pyc
-│   │   ├── test_Module_5.cpython-312-pytest-8.3.4.pyc
-│   │   ├── test_environment.cpython-312-pytest-7.4.4.pyc
-│   │   ├── test_environment.cpython-312-pytest-8.3.4.pyc
-│   │   ├── test_gainers.cpython-312-pytest-7.4.4.pyc
-│   │   └── test_gainers.cpython-312-pytest-8.3.4.pyc
 │   ├── test_Module_5.py
 │   ├── test_environment.py
 │   └── test_gainers.py
@@ -872,7 +1129,7 @@ tree . -I env
     ├── README.md
     └── aws_login.md
 
-37 directories, 175 files
+49 directories, 420 files
 ```
 
 ## Directory Organization, Sample Data, and Extra Credit
