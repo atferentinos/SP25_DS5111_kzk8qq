@@ -5,7 +5,7 @@ This Outline Report represents a data model for analyzing daily stock gainer lis
 
 ## ERD Diagram Code Created in mermaidjs.live
 
-```
+```mermaid
    erDiagram
     WSJGAINERS_NORM ||--o{ GAINERS_CONSOLIDATED : "combined into"
     YGAINERS_NORM ||--o{ GAINERS_CONSOLIDATED : "combined into"
